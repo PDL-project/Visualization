@@ -1,0 +1,147 @@
+Setting Config Task to 4, with task name 'Make the living room dark'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan201'
+
+----Test set tasks----
+['Make the living room dark']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Make the living room dark: 1/1
+==================================================
+[Token] +4,781 → total: 4,781
+✓ Decomposed plan generated
+✓ Parsed Decomposed Plan generated
+[Token] +7,529 → total: 12,310
+[Token] +7,548 → total: 19,858
+[Token] +7,528 → total: 27,386
+✓ Precondition Decomposed Plan generated
+[Token] +7,675 → total: 35,061
+[Token] +7,232 → total: 42,293
+[Token] +7,660 → total: 49,953
+✓ PDDL problems generated
+[Token] +3,472 → total: 53,425
+[Token] +3,311 → total: 56,736
+[Token] +3,475 → total: 60,211
+✓ DAG generated
+✓ Robot spawn positions: {1: (-4.0, 0.9026566743850708, 4.5), 2: (-3.75, 0.9026566743850708, 0.0), 3: (-4.0, 0.9026566743850708, 2.0)}
+[Token] +1,094 → total: 61,305
+
+==================================================
+✓ LLM Task Allocation Result
+==================================================
+  Subtask 1 (Switch off the FloorLamp.) -> Robot 2
+  Subtask 2 (Switch off the DeskLamp.) -> Robot 1
+  Subtask 3 (Switch off the LightSwitch.) -> Robot 3
+==================================================
+✓ Assignment Done
+[PlanCache] Saved to AI2Thor/baselines/PDL/resources/plan_cache/config_type4_task4_fp0
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan201, agentCount=3
+[Robot1] Spawned at (-4.25, 5.25)
+[Robot2] Spawned at (-0.50, 0.50)
+[Robot3] Spawned at (-4.75, 1.00)
+[ObjectDict] WARNING: No sink-related types found
+[AI2-THOR] Ready!
+[Checker] Mapped 'Make the living room dark' -> '4_make_livingroom_dark'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 3 component(s) to schedule
+  Component 1: subtasks [1]
+  Component 2: subtasks [2]
+  Component 3: subtasks [3]
+[Component 1] Scheduled 1 phase(s): ['parallel'] for subtasks [1]
+[Component 1] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_1.json
+[Component 2] Scheduled 1 phase(s): ['parallel'] for subtasks [2]
+[Component 2] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_2.json
+[Component 3] Scheduled 1 phase(s): ['parallel'] for subtasks [3]
+[Component 3] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_3.json
+
+[EXEC] Execution plan: 3 unit(s), 1 step(s)
+  Step 0: unit_s1(sids=[1], robots=[2]), unit_s2(sids=[2], robots=[1]), unit_s3(sids=[3], robots=[3])
+
+[EXEC] Step 0 executing: ['unit_s1', 'unit_s2', 'unit_s3']
+[Robot2] Action: gotoobject robot1 floorlamp (1)
+[Robot1] Action: gotoobject robot1 desklamp (1)
+[Robot3] Action: gotoobject robot1 lightswitch (1)
+[Robot2] Action: switchoff robot1 floorlamp (1)
+[Subtask 1] Completed! success=True
+[Robot3] Action: switchoff robot1 lightswitch (1)
+[Subtask 3] Completed! success=True
+[Robot1] Action: switchoff robot1 desklamp (1)
+[Subtask 2] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [2, 2, 2])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask           0.00s ~   11.73s  (11.73s) [sid=2 act=gotoobject robot1 desklamp (1)]
+  subtask          11.73s ~   13.30s  (1.57s) [sid=2 act=switchoff robot1 desklamp (1)]
+  ──────────────────────────────────────────────────
+  subtask        total: 13.30s
+
+--- Robot 2 ---
+  subtask           0.00s ~    0.58s  (0.58s) [sid=1 act=gotoobject robot1 floorlamp (1)]
+  subtask           0.58s ~    1.99s  (1.41s) [sid=1 act=switchoff robot1 floorlamp (1)]
+  ──────────────────────────────────────────────────
+  subtask        total: 1.99s
+
+--- Robot 3 ---
+  subtask           0.00s ~    5.67s  (5.66s) [sid=3 act=gotoobject robot1 lightswitch (1)]
+  blocking          0.00s ~    2.62s  (2.61s) [no_progress target=lightswitch]
+  subtask           5.67s ~    6.35s  (0.68s) [sid=3 act=switchoff robot1 lightswitch (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 2.61s
+  subtask        total: 6.34s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:1.000, Transport Rate:1.000, Steps:6, Makespan:2, WallMakespan:13.3s, Finished:True, SubtaskSR:1.000, Balance:1.000, Exec:1.000
+SR:1, GCR:1.000
+
+
+[Checker] Completed (2): ['NavigateTo(LightSwitch_1)', 'ToggleObjectOff(LightSwitch_1)']
+[Checker] Missing (0): []
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 6/6
+[Feedback] All subtasks succeeded.
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 0
+  Fully successful replans: 0
+  PQ = 0/0 = 0.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 61,305 (prompt: 59,775, output: 1,530)
+  Replan   : 0 (prompt: 0, output: 0)
+  Total    : 61,305 (prompt: 59,775, output: 1,530)
+
+[[ TIMING ]]
+  Initial Planning : 32.0s
+  Replan Planning  : 0.0s
+  All Planning     : 32.0s
+  Execution        : 17.3s
+  Total            : 49.4s
+
+[RESULT-CSV] Append target: ./res/res.csv
+[Timeline] Saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/logs/timelines/timeline_config_type4_task0.txt
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread

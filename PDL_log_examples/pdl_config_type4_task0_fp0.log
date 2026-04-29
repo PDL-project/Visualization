@@ -1,0 +1,147 @@
+Setting Config Task to 0, with task name 'Clear the kitchen floor by placing items at their appropriate positions'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan1'
+
+----Test set tasks----
+['Clear the kitchen floor by placing items at their appropriate positions']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Clear the kitchen floor by placing items at their appropriate positions: 1/1
+==================================================
+[Token] +6,839 → total: 6,839
+✓ Decomposed plan generated
+✓ Parsed Decomposed Plan generated
+[Token] +9,786 → total: 16,625
+[Token] +9,797 → total: 26,422
+✓ Precondition Decomposed Plan generated
+[Token] +10,109 → total: 36,531
+[Token] +10,114 → total: 46,645
+✓ PDDL problems generated
+[Token] +3,632 → total: 50,277
+[Token] +3,638 → total: 53,915
+✓ DAG generated
+✓ Robot spawn positions: {1: (0.25, 0.900999128818512, 1.75), 2: (2.0, 0.900999128818512, -1.25), 3: (-1.5, 0.900999128818512, 2.0)}
+[Token] +1,024 → total: 54,939
+
+==================================================
+✓ LLM Task Allocation Result
+==================================================
+  Subtask 1 (Move the Apple to the CounterTop.) -> Robot 1
+  Subtask 2 (Move the Tomato to the CounterTop.) -> Robot 2
+==================================================
+✓ Assignment Done
+[PlanCache] Saved to AI2Thor/baselines/PDL/resources/plan_cache/config_type4_task0_fp0
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan1, agentCount=3
+[Robot1] Spawned at (-0.75, 2.00)
+[Robot2] Spawned at (2.00, -2.00)
+[Robot3] Spawned at (-1.25, -1.50)
+[ObjectDict] Sink-related types: ['Sink']
+[AI2-THOR] Ready!
+[Checker] Mapped 'Clear the kitchen floor by placing items at their appropriate positions' -> '4_clear_floor_kitchen'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 2 component(s) to schedule
+  Component 1: subtasks [1]
+  Component 2: subtasks [2]
+[Component 1] Scheduled 1 phase(s): ['parallel'] for subtasks [1]
+[Component 1] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_1.json
+[Component 2] Scheduled 1 phase(s): ['parallel'] for subtasks [2]
+[Component 2] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_2.json
+
+[EXEC] Execution plan: 2 unit(s), 1 step(s)
+  Step 0: unit_s1(sids=[1], robots=[1]), unit_s2(sids=[2], robots=[2])
+
+[EXEC] Step 0 executing: ['unit_s1', 'unit_s2']
+[Robot1] Action: gotoobject robot1 apple (1)
+[Robot2] Action: gotoobject robot1 tomato (1)
+[Robot2] Action: pickupobject robot1 tomato floor (1)
+[Robot2] Action: gotoobject robot1 countertop2 (1)
+[Robot2] Action: drophandobject robot1 tomato countertop2 (1)
+[Subtask 2] Completed! success=True
+[Robot1] Action: pickupobject robot1 apple floor (1)
+[Robot1] Action: gotoobject robot1 countertop1 (1)
+[Robot1] Action: drophandobject robot1 apple countertop1 (1)
+[Subtask 1] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [4, 4])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask           0.00s ~   16.59s  (16.59s) [sid=1 act=gotoobject robot1 apple (1)]
+  blocking          0.00s ~    1.89s  (1.89s) [no_progress target=apple]
+  blocking          8.08s ~   12.18s  (4.10s) [no_progress target=apple]
+  subtask          16.59s ~   17.81s  (1.21s) [sid=1 act=pickupobject robot1 apple floor (1)]
+  subtask          17.81s ~   19.12s  (1.32s) [sid=1 act=gotoobject robot1 countertop1 (1)]
+  subtask          19.13s ~   19.28s  (0.15s) [sid=1 act=drophandobject robot1 apple countertop1 (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 5.99s
+  subtask        total: 19.27s
+
+--- Robot 2 ---
+  subtask           0.00s ~    3.77s  (3.77s) [sid=2 act=gotoobject robot1 tomato (1)]
+  subtask           3.78s ~    4.73s  (0.95s) [sid=2 act=pickupobject robot1 tomato floor (1)]
+  subtask           4.73s ~   12.45s  (7.73s) [sid=2 act=gotoobject robot1 countertop2 (1)]
+  blocking          7.08s ~   10.34s  (3.27s) [no_progress target=countertop2]
+  subtask          12.45s ~   12.80s  (0.35s) [sid=2 act=drophandobject robot1 tomato countertop2 (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 3.27s
+  subtask        total: 12.79s
+
+--- Robot 3 ---
+  idle              0.00s ~   19.28s  (19.28s) [step=0]
+  ──────────────────────────────────────────────────
+  idle           total: 19.28s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:0.800, Transport Rate:1.000, Steps:8, Makespan:4, WallMakespan:19.3s, Finished:True, SubtaskSR:1.000, Balance:0.000, Exec:1.000
+SR:1, GCR:0.800
+
+
+[Checker] Completed (8): ['NavigateTo(Apple_1)', 'NavigateTo(CounterTop_1, Apple_1)', 'NavigateTo(CounterTop_2, Tomato_1)', 'NavigateTo(Tomato_1)', 'PickUpObject(Apple_1)', 'PickUpObject(Tomato_1)', 'PutObject(CounterTop_1, Apple_1)', 'PutObject(CounterTop_2, Tomato_1)']
+[Checker] Missing (0): []
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 8/8
+[Feedback] All subtasks succeeded.
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 0
+  Fully successful replans: 0
+  PQ = 0/0 = 0.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 54,939 (prompt: 53,592, output: 1,347)
+  Replan   : 0 (prompt: 0, output: 0)
+  Total    : 54,939 (prompt: 53,592, output: 1,347)
+
+[[ TIMING ]]
+  Initial Planning : 23.1s
+  Replan Planning  : 0.0s
+  All Planning     : 23.1s
+  Execution        : 23.6s
+  Total            : 46.7s
+
+[RESULT-CSV] Append target: ./res/res.csv
+[Timeline] Saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/logs/timelines/timeline_config_type4_task0.txt
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread

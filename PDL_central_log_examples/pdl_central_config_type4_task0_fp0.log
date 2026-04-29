@@ -1,0 +1,130 @@
+Setting Config Task to 0, with task name 'Clear the kitchen floor by placing items at their appropriate positions'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan1'
+
+----Test set tasks----
+['Clear the kitchen floor by placing items at their appropriate positions']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Clear the kitchen floor by placing items at their appropriate positions: 1/1
+==================================================
+[PlanCache] Restored from AI2Thor/baselines/PDL_central/resources/plan_cache/config_type4_task0_fp0
+[PlanCache] Skipping LLM planning — using cached plan
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan1, agentCount=3
+[Robot1] Spawned at (-0.75, 2.00)
+[Robot2] Spawned at (2.00, -2.00)
+[Robot3] Spawned at (-1.25, -1.50)
+[ObjectDict] Sink-related types: ['Sink']
+[AI2-THOR] Ready!
+[Checker] Mapped 'Clear the kitchen floor by placing items at their appropriate positions' -> '4_clear_floor_kitchen'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 1 component(s) to schedule
+  Component 0: subtasks [1, 2]
+[Component 0] Scheduled 1 phase(s): ['parallel'] for subtasks [1, 2]
+[Component 0] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/resources/dag_outputs/schedules/component_0.json
+
+[EXEC] Execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_0(sids=[1, 2], robots=[1, 2])
+
+[EXEC] Step 0 executing: ['unit_0']
+[Robot1] Action: gotoobject robot1 apple (1)
+[Robot2] Action: gotoobject robot1 tomato (1)
+[Robot2] Action: pickupobject robot1 tomato floor (1)
+[Robot2] Action: gotoobject robot1 countertop2 (1)
+[Robot2] Action: drophandobject robot1 tomato countertop2 (1)
+[Subtask 2] Completed! success=True
+[Robot1] Action: pickupobject robot1 apple floor (1)
+[Robot1] Action: gotoobject robot1 countertop1 (1)
+[Robot1] Action: drophandobject robot1 apple countertop1 (1)
+[Subtask 1] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [4])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask           4.05s ~   20.89s  (16.84s) [sid=1 act=gotoobject robot1 apple (1)]
+  blocking          4.05s ~    6.09s  (2.05s) [no_progress target=apple]
+  blocking         12.21s ~   16.25s  (4.04s) [no_progress target=apple]
+  subtask          20.89s ~   22.15s  (1.27s) [sid=1 act=pickupobject robot1 apple floor (1)]
+  subtask          22.15s ~   23.67s  (1.52s) [sid=1 act=gotoobject robot1 countertop1 (1)]
+  subtask          23.67s ~   23.86s  (0.19s) [sid=1 act=drophandobject robot1 apple countertop1 (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 6.09s
+  subtask        total: 19.81s
+
+--- Robot 2 ---
+  subtask           4.05s ~    7.96s  (3.91s) [sid=2 act=gotoobject robot1 tomato (1)]
+  subtask           7.96s ~    8.90s  (0.94s) [sid=2 act=pickupobject robot1 tomato floor (1)]
+  subtask           8.90s ~   16.50s  (7.60s) [sid=2 act=gotoobject robot1 countertop2 (1)]
+  blocking         11.23s ~   14.49s  (3.25s) [no_progress target=countertop2]
+  subtask          16.50s ~   16.86s  (0.35s) [sid=2 act=drophandobject robot1 tomato countertop2 (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 3.25s
+  subtask        total: 12.80s
+
+--- Robot 3 ---
+  idle              4.05s ~   23.86s  (19.81s) [step=0]
+  ──────────────────────────────────────────────────
+  idle           total: 19.81s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:0.800, Transport Rate:1.000, Steps:8, Makespan:4, WallMakespan:23.9s, Finished:True, SubtaskSR:1.000, Balance:0.000, Exec:1.000
+SR:1, GCR:0.800
+
+
+[Checker] Completed (8): ['NavigateTo(Apple_1)', 'NavigateTo(CounterTop_1, Apple_1)', 'NavigateTo(CounterTop_2, Tomato_1)', 'NavigateTo(Tomato_1)', 'PickUpObject(Apple_1)', 'PickUpObject(Tomato_1)', 'PutObject(CounterTop_1, Apple_1)', 'PutObject(CounterTop_2, Tomato_1)']
+[Checker] Missing (0): []
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 8/8
+[Feedback] All subtasks succeeded.
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 0
+  Fully successful replans: 0
+  PQ = 0/0 = 0.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 0 (prompt: 0, output: 0)
+  Replan   : 1,749 (prompt: 1,486, output: 263)
+  Total    : 1,749 (prompt: 1,486, output: 263)
+
+[[ TIMING ]]
+  Initial Planning : 0.0s
+  Replan Planning  : 0.0s
+  All Planning     : 0.0s
+  Execution        : 28.4s
+  Total            : 28.4s
+
+[RESULT-CSV] Append target: ./res/res.csv
+Error in main execution: list index out of range
+Full error: IndexError: list index out of range
+Traceback (most recent call last):
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 4472, in main
+    task_manager.log_results(
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 639, in log_results
+    for item in self.precondition_subtasks[idx]:
+IndexError: list index out of range
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread

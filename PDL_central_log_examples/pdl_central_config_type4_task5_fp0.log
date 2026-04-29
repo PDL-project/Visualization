@@ -1,0 +1,162 @@
+Setting Config Task to 5, with task name 'Slice all sliceable objects'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan1'
+
+----Test set tasks----
+['Slice all sliceable objects']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Slice all sliceable objects: 1/1
+==================================================
+[PlanCache] Restored from AI2Thor/baselines/PDL_central/resources/plan_cache/config_type4_task5_fp0
+[PlanCache] Skipping LLM planning — using cached plan
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan1, agentCount=3
+[Robot1] Spawned at (-0.75, 2.00)
+[Robot2] Spawned at (2.00, -2.00)
+[Robot3] Spawned at (-1.25, -1.50)
+[ObjectDict] Sink-related types: ['Sink']
+[AI2-THOR] Ready!
+[Checker] Mapped 'Slice all sliceable objects' -> '4_slice_all_sliceable'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 1 component(s) to schedule
+  Component 0: subtasks [1, 2, 3, 4]
+[Component 0] Scheduled 3 phase(s): ['parallel', 'parallel', 'parallel'] for subtasks [1, 2, 3, 4]
+[Component 0] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/resources/dag_outputs/schedules/component_0.json
+
+[EXEC] Execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_0(sids=[1, 2, 3, 4], robots=[1, 2, 3])
+
+[EXEC] Step 0 executing: ['unit_0']
+[Robot2] Action: gotoobject robot1 apple (1)
+[Robot3] Action: gotoobject robot1 tomato (1)
+[Robot3] Action: sliceobject robot1 tomato countertop (1)
+[Subtask 3] Completed! success=True
+[Robot2] Action: sliceobject robot1 apple countertop (1)
+[Subtask 1] Completed! success=True
+[Robot1] Action: gotoobject robot1 bread (1)
+[Robot1] Action: sliceobject robot1 bread countertop (1)
+[Robot1] Action: gotoobject robot1 drawer1 (1)
+[Robot1] Action: openobject robot1 drawer1 (1)
+[Robot1] Action: gotoobject robot1 knife (1)
+[Robot1] Action: pickupobject robot1 knife drawer1 (1)
+[Robot1] Action: gotoobject robot1 countertop (1)
+[Robot1] Action: drophandobject robot1 knife countertop (1)
+[Subtask 2] Completed! success=True
+[Robot2] Action: gotoobject robot1 lettuce (1)
+[Robot2] Action: sliceobject robot1 lettuce countertop (1)
+[Subtask 4] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [12])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask          66.34s ~   73.64s  (7.30s) [sid=2 act=gotoobject robot1 bread (1)]
+  subtask          73.64s ~   86.50s  (12.86s) [sid=2 act=sliceobject robot1 bread countertop (1)]
+  blocking         75.21s ~   77.16s  (1.95s) [no_progress target=bread]
+  blocking         77.16s ~   80.22s  (3.06s) [no_progress target=bread]
+  blocking         80.27s ~   83.20s  (2.93s) [no_progress target=bread]
+  subtask          86.50s ~   93.21s  (6.71s) [sid=2 act=gotoobject robot1 drawer1 (1)]
+  blocking         87.75s ~   91.34s  (3.59s) [no_progress target=drawer1]
+  subtask          93.21s ~   95.64s  (2.43s) [sid=2 act=openobject robot1 drawer1 (1)]
+  subtask          95.64s ~   99.31s  (3.67s) [sid=2 act=gotoobject robot1 knife (1)]
+  blocking         95.64s ~   98.86s  (3.22s) [no_progress target=knife]
+  subtask          99.31s ~  106.41s  (7.10s) [sid=2 act=pickupobject robot1 knife drawer1 (1)]
+  blocking         99.31s ~  101.42s  (2.11s) [no_progress target=knife]
+  blocking        101.42s ~  104.79s  (3.37s) [no_progress target=knife]
+  subtask         106.41s ~  106.89s  (0.48s) [sid=2 act=gotoobject robot1 countertop (1)]
+  subtask         106.89s ~  107.06s  (0.17s) [sid=2 act=drophandobject robot1 knife countertop (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 20.22s
+  subtask        total: 40.72s
+
+--- Robot 2 ---
+  subtask           3.53s ~   38.16s  (34.63s) [sid=1 act=gotoobject robot1 apple (1)]
+  blocking          8.07s ~   11.89s  (3.83s) [no_progress target=apple]
+  blocking         11.89s ~   15.11s  (3.22s) [no_progress target=apple]
+  blocking         16.60s ~   20.77s  (4.17s) [no_progress target=apple]
+  blocking         20.77s ~   24.14s  (3.37s) [no_progress target=apple]
+  blocking         24.14s ~   28.53s  (4.39s) [no_progress target=apple]
+  blocking         29.49s ~   36.47s  (6.98s) [no_progress target=apple]
+  subtask          38.16s ~   66.33s  (28.17s) [sid=1 act=sliceobject robot1 apple countertop (1)]
+  blocking         38.16s ~   42.39s  (4.23s) [no_progress target=apple]
+  blocking         42.39s ~   47.14s  (4.75s) [no_progress target=apple]
+  blocking         48.68s ~   52.16s  (3.48s) [no_progress target=apple]
+  blocking         52.16s ~   58.68s  (6.52s) [no_progress target=apple]
+  blocking         59.90s ~   62.64s  (2.73s) [no_progress target=apple]
+  subtask         107.07s ~  116.12s  (9.05s) [sid=4 act=gotoobject robot1 lettuce (1)]
+  blocking        107.07s ~  110.49s  (3.43s) [no_progress target=lettuce]
+  blocking        110.49s ~  112.18s  (1.68s) [no_progress target=lettuce]
+  subtask         116.12s ~  117.60s  (1.48s) [sid=4 act=sliceobject robot1 lettuce countertop (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 52.77s
+  subtask        total: 73.32s
+
+--- Robot 3 ---
+  subtask           3.53s ~    8.27s  (4.74s) [sid=3 act=gotoobject robot1 tomato (1)]
+  blocking          3.53s ~    6.00s  (2.47s) [no_progress target=tomato]
+  subtask           8.28s ~    9.28s  (1.01s) [sid=3 act=sliceobject robot1 tomato countertop (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 2.47s
+  subtask        total: 5.75s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:0.667, Transport Rate:0.667, Steps:14, Makespan:12, WallMakespan:117.6s, Finished:False, SubtaskSR:0.667, Balance:0.250, Exec:1.000
+SR:0, GCR:0.667
+
+
+[Checker] Completed (8): ['NavigateTo(Apple_1)', 'NavigateTo(Bread_1)', 'NavigateTo(Lettuce_1)', 'NavigateTo(Tomato_1)', 'SliceObject(Apple_1)', 'SliceObject(Bread_1)', 'SliceObject(Lettuce_1)', 'SliceObject(Tomato_1)']
+[Checker] Missing (4): ['NavigateTo(Egg_1)', 'NavigateTo(Potato_1)', 'SliceObject(Egg_1)', 'SliceObject(Potato_1)']
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 14/14
+[Feedback] All subtasks succeeded.
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 0
+  Fully successful replans: 0
+  PQ = 0/0 = 0.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 0 (prompt: 0, output: 0)
+  Replan   : 1,888 (prompt: 1,590, output: 298)
+  Total    : 1,888 (prompt: 1,590, output: 298)
+
+[[ TIMING ]]
+  Initial Planning : 0.0s
+  Replan Planning  : 0.0s
+  All Planning     : 0.0s
+  Execution        : 121.8s
+  Total            : 121.8s
+
+[RESULT-CSV] Append target: ./res/res.csv
+Error in main execution: list index out of range
+Full error: IndexError: list index out of range
+Traceback (most recent call last):
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 4472, in main
+    task_manager.log_results(
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 639, in log_results
+    for item in self.precondition_subtasks[idx]:
+IndexError: list index out of range
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread

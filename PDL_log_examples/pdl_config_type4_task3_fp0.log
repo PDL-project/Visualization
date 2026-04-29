@@ -1,0 +1,404 @@
+Setting Config Task to 3, with task name 'Clear the couch by storing the items in their appropriate positions'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan201'
+
+----Test set tasks----
+['Clear the couch by storing the items in their appropriate positions']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Clear the couch by storing the items in their appropriate positions: 1/1
+==================================================
+[Token] +4,892 → total: 4,892
+✓ Decomposed plan generated
+✓ Parsed Decomposed Plan generated
+[Token] +7,690 → total: 12,582
+[Token] +7,667 → total: 20,249
+[Token] +7,684 → total: 27,933
+[Token] +7,712 → total: 35,645
+✓ Precondition Decomposed Plan generated
+[Token] +8,074 → total: 43,719
+[Token] +8,032 → total: 51,751
+[Token] +7,257 → total: 59,008
+[Token] +8,020 → total: 67,028
+✓ PDDL problems generated
+[Token] +3,693 → total: 70,721
+[Token] +3,669 → total: 74,390
+[Token] +3,333 → total: 77,723
+[Token] +3,641 → total: 81,364
+✓ DAG generated
+✓ Robot spawn positions: {1: (-3.5, 0.9026566743850708, 4.75), 2: (-4.25, 0.9026566743850708, 0.0), 3: (-4.0, 0.9026566743850708, 1.75)}
+[Token] +1,292 → total: 82,656
+
+==================================================
+✓ LLM Task Allocation Result
+==================================================
+  Subtask 1 (Move the KeyChain to SideTable1.) -> Robot 1
+  Subtask 2 (Move the Pen to SideTable1.) -> Robot 3
+  Subtask 3 (Move the Pencil to SideTable1.) -> Robot 2
+  Subtask 4 (Move the Pillow to SideTable1.) -> Robot 1
+==================================================
+✓ Assignment Done
+[PlanCache] Saved to AI2Thor/baselines/PDL/resources/plan_cache/config_type4_task3_fp0
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan201, agentCount=3
+[Robot1] Spawned at (-4.25, 5.25)
+[Robot2] Spawned at (-0.50, 0.50)
+[Robot3] Spawned at (-4.75, 1.00)
+[ObjectDict] WARNING: No sink-related types found
+[AI2-THOR] Ready!
+[Checker] Mapped 'Clear the couch by storing the items in their appropriate positions' -> '4_clear_couch_livingroom'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 4 component(s) to schedule
+  Component 1: subtasks [1]
+  Component 2: subtasks [2]
+  Component 3: subtasks [3]
+  Component 4: subtasks [4]
+[Component 1] Scheduled 1 phase(s): ['parallel'] for subtasks [1]
+[Component 1] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_1.json
+[Component 2] Scheduled 1 phase(s): ['parallel'] for subtasks [2]
+[Component 2] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_2.json
+[Component 3] Scheduled 1 phase(s): ['parallel'] for subtasks [3]
+[Component 3] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_3.json
+[Component 4] Scheduled 1 phase(s): ['parallel'] for subtasks [4]
+[Component 4] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_4.json
+
+[EXEC] Execution plan: 4 unit(s), 2 step(s)
+  Step 0: unit_s1(sids=[1], robots=[1]), unit_s2(sids=[2], robots=[3]), unit_s3(sids=[3], robots=[2])
+  Step 1: unit_s4(sids=[4], robots=[1])
+
+[EXEC] Step 0 executing: ['unit_s1', 'unit_s2', 'unit_s3']
+[Robot1] Action: gotoobject robot1 keychain (1)
+[Robot3] Action: gotoobject robot1 pen (1)
+[Robot2] Action: gotoobject robot1 pencil (1)
+[Robot1] Action: pickupobject robot1 keychain sofa (1)
+[Robot1] Action: gotoobject robot1 sidetable1 (1)
+[Robot3] Action: pickupobject robot1 pen sofa (1)
+[Robot1] Action: drophandobject robot1 keychain sidetable1 (1)
+[Subtask 1] Completed! success=True
+[Robot2] Action: pickupobject robot1 pencil sofa (1)
+[Robot3] Action: gotoobject robot1 sidetable1 (1)
+[Robot3] Action: drophandobject robot1 pen sidetable1 (1)
+[Subtask 2] Completed! success=True
+[Robot2] Action: gotoobject robot1 sidetable1 (1)
+[Robot2] Action: drophandobject robot1 pencil sidetable1 (1)
+[Subtask 3] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [4, 4, 4])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+
+[EXEC] Step 1 executing: ['unit_s4']
+[Robot1] Action: gotoobject robot1 pillow (1)
+[Robot1] Action: pickupobject robot1 pillow sofa (1)
+[Robot1] Action: gotoobject robot1 sidetable1 (1)
+[Robot1] Action: drophandobject robot1 pillow sidetable1 (1)
+[PutObject] Error: No valid positions to place object found
+[Robot1] PutObject failed or timed out for receptacle 'sidetable1'
+[Robot1] Subtask 4 failed, replan started (background), unit unit_s4 stopped
+[EXEC] Step 1 completed (unit makespans: [3])
+[DEBUG] Step 1 post-check: pending_replans=1, replanned=False, aborted_sids={1}
+
+[EXEC] Waiting for 1 background replan thread(s)...
+[Replan] versioned folder: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_1
+
+============================================================
+[Feedback] Replan Group 4
+============================================================
+  - Failed subtask: 4
+  - Target subtasks: [4]
+  - Action: group-level redecomposition
+
+============================================================
+[Feedback] Decomp Callback (Group 4)
+============================================================
+  - Subtasks in group: [4]
+  - Failed subtask: 4
+  - Remaining pending: []
+  - Live object info: 43 objects
+  - Tasks to redecompose: [4]
+[Token] +2,943 → total: 85,599
+  [Parser] LLM response → 1 subtask(s) parsed
+  Redecomposed into 1 new subtasks
+[Token] +8,459 → total: 94,058
+[Token] +4,779 → total: 98,837
+  Saving generated files...
+    [DEBUG] Saving precondition: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_1/precondition_subtasks/pre_04_Place_the_Pillow_on_a_Different_SideTable_REPLAN.txt (text length: 861)
+  Validating regenerated PDDL problems (replan)...
+  Running planner for new subtasks...
+    Subtask 4: ✓ 2 actions
+
+  ✓ Successfully generated 1 new plans
+============================================================
+
+  - Group result: REPLANNED
+
+============================================================
+[DAG Integration] Integrating replanned subtasks into DAG
+============================================================
+  Loaded original DAG with 4 nodes
+
+  Generating new DAG for replanned subtasks...
+    Subtask 4: 2 actions
+  Generated new DAG: 1 nodes, 0 edges
+  Merged DAG: 4 nodes, 0 edges
+  ✓ Backup saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_1/dag/task_SUBTASK_DAG_before.json
+
+============================================================
+[LP Reallocation] Recomputing task assignment
+============================================================
+  [Holding forced] Subtask 4 → Robot1 (holding {'pillow'})
+[Token] +1,361 → total: 100,198
+
+  [LLM Result]
+    Subtask 1 (subtask_01_Move_the_KeyChain_to_SideTable1) → Robot 1
+    Subtask 2 (subtask_02_Move_the_Pen_to_SideTable1) → Robot 3
+    Subtask 3 (subtask_03_Move_the_Pencil_to_SideTable1) → Robot 2
+    Subtask 4 (subtask_04_Place_the_Pillow_on_a_Different_SideTable_REPLAN) → Robot 1
+============================================================
+
+
+[Executor Reload] Group-level reload...
+  ✓ Group-level reload: removed=[], added/updated=[4]
+  ✓ Reload complete (4 subtask plans active)
+[EXEC] Replan complete, rebuilding execution plan...
+[REBUILD] Component 4 re-scheduled: 1 phase(s), subtasks=[4]
+[REBUILD] New execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_s4(sids=[4], robots=[1])
+
+[EXEC] Step 0 executing: ['unit_s4']
+[Robot1] Action: gotoobject robot1 sidetable2 (1)
+[Robot1] Navigation timeout for 'sidetable2' (dist=3.35), continuing
+[Robot1] Action: drophandobject robot1 pillow sidetable2 (1)
+[PutObject] Error: No valid positions to place object found
+[Robot1] PutObject failed or timed out for receptacle 'sidetable2'
+[Robot1] Subtask 4 failed, replan started (background), unit unit_s4 stopped
+[EXEC] Step 0 completed (unit makespans: [4])
+[DEBUG] Step 0 post-check: pending_replans=1, replanned=False, aborted_sids={1}
+
+[EXEC] Waiting for 1 background replan thread(s)...
+[Replan] versioned folder: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_2
+
+============================================================
+[Feedback] Replan Group 4
+============================================================
+  - Failed subtask: 4
+  - Target subtasks: [4]
+  - Action: group-level redecomposition
+
+============================================================
+[Feedback] Decomp Callback (Group 4)
+============================================================
+  - Subtasks in group: [4]
+  - Failed subtask: 4
+  - Remaining pending: []
+  - Live object info: 43 objects
+  - Tasks to redecompose: [4]
+[Token] +3,155 → total: 103,353
+  [Parser] LLM response → 1 subtask(s) parsed
+  Redecomposed into 1 new subtasks
+[Token] +8,577 → total: 111,930
+[Token] +4,894 → total: 116,824
+  Saving generated files...
+    [DEBUG] Saving precondition: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_2/precondition_subtasks/pre_04_Place_the_Pillow_on_a_Different_SideTable_REPLAN.txt (text length: 887)
+  Validating regenerated PDDL problems (replan)...
+  Running planner for new subtasks...
+    Subtask 4: ✓ 2 actions
+
+  ✓ Successfully generated 1 new plans
+============================================================
+
+  - Group result: REPLANNED
+
+============================================================
+[DAG Integration] Integrating replanned subtasks into DAG
+============================================================
+  Loaded original DAG with 4 nodes
+
+  Generating new DAG for replanned subtasks...
+    Subtask 4: 2 actions
+  Generated new DAG: 1 nodes, 0 edges
+  Merged DAG: 4 nodes, 0 edges
+  ✓ Backup saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_2/dag/task_SUBTASK_DAG_before.json
+
+============================================================
+[LP Reallocation] Recomputing task assignment
+============================================================
+  [Holding forced] Subtask 4 → Robot1 (holding {'pillow'})
+[Token] +1,361 → total: 118,185
+
+  [LLM Result]
+    Subtask 1 (subtask_01_Move_the_KeyChain_to_SideTable1) → Robot 1
+    Subtask 2 (subtask_02_Move_the_Pen_to_SideTable1) → Robot 3
+    Subtask 3 (subtask_03_Move_the_Pencil_to_SideTable1) → Robot 2
+    Subtask 4 (subtask_04_Place_the_Pillow_on_a_Different_SideTable_REPLAN) → Robot 1
+============================================================
+
+
+[Executor Reload] Group-level reload...
+  ✓ Group-level reload: removed=[], added/updated=[4]
+  ✓ Reload complete (4 subtask plans active)
+[EXEC] Replan complete, rebuilding execution plan...
+[REBUILD] Component 4 re-scheduled: 1 phase(s), subtasks=[4]
+[REBUILD] New execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_s4(sids=[4], robots=[1])
+
+[EXEC] Step 0 executing: ['unit_s4']
+[Robot1] Action: gotoobject robot1 sidetable3 (1)
+[Robot1] Action: drophandobject robot1 pillow sidetable3 (1)
+[Subtask 4] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [6])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask           0.00s ~   20.64s  (20.64s) [sid=1 act=gotoobject robot1 keychain (1)]
+  blocking          0.00s ~    6.06s  (6.05s) [no_progress target=keychain]
+  blocking          6.47s ~    8.69s  (2.22s) [no_progress target=keychain]
+  blocking          8.69s ~   11.95s  (3.25s) [no_progress target=keychain]
+  blocking         13.25s ~   18.36s  (5.11s) [no_progress target=keychain]
+  subtask          20.64s ~   23.59s  (2.95s) [sid=1 act=pickupobject robot1 keychain sofa (1)]
+  subtask          23.59s ~   33.04s  (9.44s) [sid=1 act=gotoobject robot1 sidetable1 (1)]
+  blocking         28.96s ~   32.31s  (3.34s) [no_progress target=sidetable1]
+  subtask          33.04s ~   33.67s  (0.63s) [sid=1 act=drophandobject robot1 keychain sidetable1 (1)]
+  subtask          94.22s ~  111.12s  (16.90s) [sid=4 act=gotoobject robot1 pillow (1)]
+  blocking         95.17s ~   98.03s  (2.86s) [no_progress target=pillow]
+  blocking         99.98s ~  102.35s  (2.37s) [no_progress target=pillow]
+  blocking        106.27s ~  109.08s  (2.81s) [no_progress target=pillow]
+  subtask         111.12s ~  128.27s  (17.15s) [sid=4 act=pickupobject robot1 pillow sofa (1)]
+  blocking        113.77s ~  115.77s  (2.00s) [no_progress target=pillow]
+  blocking        116.70s ~  118.55s  (1.85s) [no_progress target=pillow]
+  blocking        120.98s ~  123.07s  (2.10s) [no_progress target=pillow]
+  subtask         128.27s ~  150.45s  (22.18s) [sid=4 act=gotoobject robot1 sidetable1 (1)]
+  blocking        133.13s ~  135.10s  (1.97s) [no_progress target=sidetable1]
+  blocking        136.02s ~  142.50s  (6.48s) [no_progress target=sidetable1]
+  blocking        142.55s ~  147.51s  (4.96s) [no_progress target=sidetable1]
+  subtask         150.45s ~  152.97s  (2.52s) [sid=4 act=drophandobject robot1 pillow sidetable1 (1)]
+  replan_wait     152.97s ~  166.01s  (13.04s) [sid=4 failed]
+  subtask         166.01s ~  219.57s  (53.56s) [sid=4 act=gotoobject robot1 sidetable2 (1)]
+  blocking        166.02s ~  167.91s  (1.89s) [no_progress target=sidetable2]
+  blocking        167.91s ~  170.28s  (2.37s) [no_progress target=sidetable2]
+  blocking        173.69s ~  176.85s  (3.16s) [no_progress target=sidetable2]
+  blocking        180.31s ~  183.40s  (3.10s) [no_progress target=sidetable2]
+  blocking        184.54s ~  186.63s  (2.09s) [no_progress target=sidetable2]
+  blocking        187.21s ~  191.13s  (3.92s) [no_progress target=sidetable2]
+  blocking        191.13s ~  194.03s  (2.90s) [no_progress target=sidetable2]
+  blocking        195.19s ~  197.27s  (2.08s) [no_progress target=sidetable2]
+  blocking        197.27s ~  199.25s  (1.99s) [no_progress target=sidetable2]
+  blocking        199.25s ~  201.91s  (2.66s) [no_progress target=sidetable2]
+  blocking        202.80s ~  204.70s  (1.89s) [no_progress target=sidetable2]
+  blocking        205.66s ~  208.52s  (2.86s) [no_progress target=sidetable2]
+  blocking        209.43s ~  211.32s  (1.89s) [no_progress target=sidetable2]
+  blocking        214.03s ~  232.71s  (18.69s) [no_progress target=sidetable2]
+  subtask         219.57s ~  221.95s  (2.37s) [sid=4 act=drophandobject robot1 pillow sidetable2 (1)]
+  replan_wait     221.95s ~  232.71s  (10.77s) [sid=4 failed]
+  subtask         232.71s ~  260.75s  (28.04s) [sid=4 act=gotoobject robot1 sidetable3 (1)]
+  blocking        232.71s ~  234.98s  (2.26s) [no_progress target=sidetable3]
+  blocking        234.98s ~  237.05s  (2.07s) [no_progress target=sidetable3]
+  blocking        238.08s ~  240.18s  (2.11s) [no_progress target=sidetable3]
+  blocking        241.34s ~  243.40s  (2.06s) [no_progress target=sidetable3]
+  blocking        244.48s ~  246.66s  (2.18s) [no_progress target=sidetable3]
+  blocking        246.71s ~  248.82s  (2.11s) [no_progress target=sidetable3]
+  blocking        248.82s ~  250.65s  (1.84s) [no_progress target=sidetable3]
+  blocking        251.57s ~  253.45s  (1.89s) [no_progress target=sidetable3]
+  blocking        254.49s ~  256.33s  (1.84s) [no_progress target=sidetable3]
+  blocking        257.29s ~  259.16s  (1.87s) [no_progress target=sidetable3]
+  subtask         260.76s ~  261.03s  (0.27s) [sid=4 act=drophandobject robot1 pillow sidetable3 (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 119.08s
+  replan_wait    total: 23.81s
+  subtask        total: 176.66s
+
+--- Robot 2 ---
+  subtask           0.00s ~   64.55s  (64.55s) [sid=3 act=gotoobject robot1 pencil (1)]
+  blocking          7.07s ~   10.42s  (3.34s) [no_progress target=pencil]
+  blocking         10.42s ~   14.23s  (3.82s) [no_progress target=pencil]
+  blocking         20.26s ~   48.31s  (28.05s) [no_progress target=pencil]
+  blocking         48.66s ~   55.12s  (6.46s) [no_progress target=pencil]
+  blocking         56.57s ~   63.28s  (6.71s) [no_progress target=pencil]
+  subtask          64.55s ~   78.96s  (14.41s) [sid=3 act=pickupobject robot1 pencil sofa (1)]
+  blocking         67.80s ~   71.49s  (3.69s) [no_progress target=pencil]
+  blocking         72.47s ~   75.77s  (3.30s) [no_progress target=pencil]
+  subtask          78.96s ~   90.28s  (11.32s) [sid=3 act=gotoobject robot1 sidetable1 (1)]
+  blocking         79.95s ~   82.00s  (2.05s) [no_progress target=sidetable1]
+  blocking         84.14s ~   85.90s  (1.76s) [no_progress target=sidetable1]
+  blocking         86.89s ~   88.98s  (2.09s) [no_progress target=sidetable1]
+  subtask          90.28s ~   90.60s  (0.32s) [sid=3 act=drophandobject robot1 pencil sidetable1 (1)]
+  idle             94.22s ~  152.97s  (58.75s) [step=1]
+  idle            166.01s ~  221.95s  (55.93s) [step=0]
+  idle            232.71s ~  261.04s  (28.32s) [step=0]
+  ──────────────────────────────────────────────────
+  blocking       total: 61.27s
+  idle           total: 143.01s
+  subtask        total: 90.60s
+
+--- Robot 3 ---
+  subtask           0.00s ~   29.36s  (29.35s) [sid=2 act=gotoobject robot1 pen (1)]
+  blocking          6.75s ~   18.82s  (12.07s) [no_progress target=pen]
+  blocking         18.82s ~   21.83s  (3.01s) [no_progress target=pen]
+  subtask          29.36s ~   73.48s  (44.13s) [sid=2 act=pickupobject robot1 pen sofa (1)]
+  blocking         29.36s ~   32.06s  (2.71s) [no_progress target=pen]
+  blocking         32.89s ~   37.09s  (4.20s) [no_progress target=pen]
+  blocking         38.18s ~   41.37s  (3.19s) [no_progress target=pen]
+  blocking         42.44s ~   45.62s  (3.18s) [no_progress target=pen]
+  blocking         45.62s ~   59.73s  (14.11s) [no_progress target=pen]
+  blocking         59.73s ~   66.56s  (6.82s) [no_progress target=pen]
+  subtask          73.48s ~   77.92s  (4.43s) [sid=2 act=gotoobject robot1 sidetable1 (1)]
+  blocking         73.48s ~   75.81s  (2.33s) [no_progress target=sidetable1]
+  subtask          77.92s ~   78.22s  (0.30s) [sid=2 act=drophandobject robot1 pen sidetable1 (1)]
+  idle             94.22s ~  152.97s  (58.75s) [step=1]
+  idle            166.01s ~  221.95s  (55.93s) [step=0]
+  idle            232.71s ~  261.04s  (28.32s) [step=0]
+  ──────────────────────────────────────────────────
+  blocking       total: 51.61s
+  idle           total: 143.01s
+  subtask        total: 78.22s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:0.429, Transport Rate:0.273, Steps:20, Makespan:17, WallMakespan:261.0s, Finished:False, SubtaskSR:0.273, Balance:0.500, Exec:0.900
+SR:0, GCR:0.429
+
+
+[Checker] Completed (6): ['NavigateTo(KeyChain_1)', 'NavigateTo(Pen_1)', 'NavigateTo(Pencil_1)', 'PickUpObject(KeyChain_1)', 'PickUpObject(Pen_1)', 'PickUpObject(Pencil_1)']
+[Checker] Missing (16): ['NavigateTo(Book_1)', 'NavigateTo(Drawer, Book)', 'NavigateTo(Drawer, Pen)', 'NavigateTo(Drawer, Pencil)', 'NavigateTo(Drawer, Watch)', 'NavigateTo(Watch_1)', 'OpenObject(Drawer, Book)', 'OpenObject(Drawer, Pen)', 'OpenObject(Drawer, Pencil)', 'OpenObject(Drawer, Watch)', 'PickUpObject(Book_1)', 'PickUpObject(Watch_1)', 'PutObject(Drawer, Book)', 'PutObject(Drawer, Pen)', 'PutObject(Drawer, Pencil)', 'PutObject(Drawer, Watch)']
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 18/20
+[Feedback] All subtasks succeeded.
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 2
+  Fully successful replans: 2
+  PQ = 2/2 = 1.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 82,656 (prompt: 79,848, output: 2,808)
+  Replan   : 35,529 (prompt: 34,419, output: 1,110)
+  Total    : 118,185 (prompt: 114,267, output: 3,918)
+
+[[ TIMING ]]
+  Initial Planning : 43.5s
+  Replan Planning  : 23.8s
+  All Planning     : 67.3s
+  Execution        : 241.7s
+  Total            : 309.0s
+
+[RESULT-CSV] Append target: ./res/res.csv
+[Timeline] Saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/logs/timelines/timeline_config_type4_task0.txt

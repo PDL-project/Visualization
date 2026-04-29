@@ -1,0 +1,282 @@
+Setting Config Task to 6, with task name 'Put appropriate utensils in storage'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan2'
+
+----Test set tasks----
+['Put appropriate utensils in storage']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Put appropriate utensils in storage: 1/1
+==================================================
+[Token] +6,859 → total: 6,859
+✓ Decomposed plan generated
+✓ Parsed Decomposed Plan generated
+[Token] +9,618 → total: 16,477
+[Token] +9,592 → total: 26,069
+[Token] +9,594 → total: 35,663
+[Token] +9,593 → total: 45,256
+[Token] +9,617 → total: 54,873
+[Token] +9,639 → total: 64,512
+✓ Precondition Decomposed Plan generated
+[Token] +10,172 → total: 74,684
+[Token] +10,118 → total: 84,802
+[Token] +10,120 → total: 94,922
+[Token] +10,118 → total: 105,040
+[Token] +10,160 → total: 115,200
+[Token] +10,174 → total: 125,374
+✓ PDDL problems generated
+[Token] +3,859 → total: 129,233
+[Token] +3,833 → total: 133,066
+[Token] +3,833 → total: 136,899
+[Token] +3,833 → total: 140,732
+[Token] +3,857 → total: 144,589
+[Token] +3,864 → total: 148,453
+✓ DAG generated
+✓ Robot spawn positions: {1: (1.0, 0.9009992480278015, 0.0), 2: (-2.75, 0.9009992480278015, 2.25), 3: (-0.5, 0.9009992480278015, 3.0)}
+[Token] +1,600 → total: 150,053
+
+==================================================
+✓ LLM Task Allocation Result
+==================================================
+  Subtask 1 (Put the ButterKnife in Drawer1.) -> Robot 1
+  Subtask 2 (Put the Fork in Drawer2.) -> Robot 3
+  Subtask 3 (Put the Spoon in Drawer3.) -> Robot 2
+  Subtask 4 (Put the Knife in Drawer4.) -> Robot 1
+  Subtask 5 (Put the Ladle in Drawer5.) -> Robot 3
+  Subtask 6 (Put the Spatula in Drawer6.) -> Robot 2
+==================================================
+✓ Assignment Done
+[PlanCache] Saved to AI2Thor/baselines/PDL/resources/plan_cache/config_type4_task6_fp0
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan2, agentCount=3
+[Robot1] Spawned at (-1.25, 2.75)
+[Robot2] Spawned at (1.00, -0.75)
+[Robot3] Spawned at (1.00, 1.75)
+[ObjectDict] Sink-related types: ['Sink']
+[AI2-THOR] Ready!
+[Checker] Mapped 'Put appropriate utensils in storage' -> '4_put_appropriate_storage'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 6 component(s) to schedule
+  Component 1: subtasks [1]
+  Component 2: subtasks [2]
+  Component 3: subtasks [3]
+  Component 4: subtasks [4]
+  Component 5: subtasks [5]
+  Component 6: subtasks [6]
+[Component 1] Scheduled 1 phase(s): ['parallel'] for subtasks [1]
+[Component 1] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_1.json
+[Component 2] Scheduled 1 phase(s): ['parallel'] for subtasks [2]
+[Component 2] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_2.json
+[Component 3] Scheduled 1 phase(s): ['parallel'] for subtasks [3]
+[Component 3] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_3.json
+[Component 4] Scheduled 1 phase(s): ['parallel'] for subtasks [4]
+[Component 4] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_4.json
+[Component 5] Scheduled 1 phase(s): ['parallel'] for subtasks [5]
+[Component 5] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_5.json
+[Component 6] Scheduled 1 phase(s): ['parallel'] for subtasks [6]
+[Component 6] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_6.json
+
+[EXEC] Execution plan: 6 unit(s), 2 step(s)
+  Step 0: unit_s1(sids=[1], robots=[1]), unit_s2(sids=[2], robots=[3]), unit_s3(sids=[3], robots=[2])
+  Step 1: unit_s4(sids=[4], robots=[1]), unit_s5(sids=[5], robots=[3]), unit_s6(sids=[6], robots=[2])
+
+[EXEC] Step 0 executing: ['unit_s1', 'unit_s2', 'unit_s3']
+[Robot1] Action: gotoobject robot1 butterknife (1)
+[Robot3] Action: gotoobject robot1 fork (1)
+[Robot2] Action: gotoobject robot1 spoon (1)
+[Robot3] Action: pickupobject robot1 fork countertop (1)
+[Robot3] Action: gotoobject robot1 drawer2 (1)
+[Robot3] Action: openobject robot1 drawer2 (1)
+[Robot3] Action: drophandobject robot1 fork drawer2 (1)
+[Robot3] Action: closeobject robot1 drawer2 (1)
+[Subtask 2] Completed! success=True
+[Robot2] Action: pickupobject robot1 spoon countertop (1)
+[Robot2] Action: gotoobject robot1 drawer3 (1)
+[Robot2] Action: openobject robot1 drawer3 (1)
+[Robot2] Action: drophandobject robot1 spoon drawer3 (1)
+[Robot2] Action: closeobject robot1 drawer3 (1)
+[Robot1] Action: pickupobject robot1 butterknife drawer (1)
+[Subtask 3] Completed! success=True
+[Robot1] Action: gotoobject robot1 drawer1 (1)
+[Robot1] Action: openobject robot1 drawer1 (1)
+[Robot1] Action: drophandobject robot1 butterknife drawer1 (1)
+[Robot1] Action: closeobject robot1 drawer1 (1)
+[Subtask 1] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [6, 6, 6])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+
+[EXEC] Step 1 executing: ['unit_s4', 'unit_s5', 'unit_s6']
+[Robot1] Action: gotoobject robot1 knife (1)
+[Robot3] Action: gotoobject robot1 ladle (1)
+[Robot2] Action: gotoobject robot1 spatula (1)
+[Robot1] Action: pickupobject robot1 knife countertop (1)
+[Robot1] Action: gotoobject robot1 drawer4 (1)
+[Robot1] Action: openobject robot1 drawer4 (1)
+[Robot1] Action: drophandobject robot1 knife drawer4 (1)
+[Robot1] Action: closeobject robot1 drawer4 (1)
+[Subtask 4] Completed! success=True
+[Robot2] Action: pickupobject robot1 spatula countertop (1)
+[Robot3] Action: pickupobject robot1 ladle countertop (1)
+[Robot3] Action: gotoobject robot1 drawer5 (1)
+[Robot3] Action: openobject robot1 drawer5 (1)
+[Robot2] Action: gotoobject robot1 drawer6 (1)
+[Robot3] Action: drophandobject robot1 ladle drawer5 (1)
+[Robot3] Action: closeobject robot1 drawer5 (1)
+[Subtask 5] Completed! success=True
+[Robot2] Action: openobject robot1 drawer6 (1)
+[Robot2] Action: drophandobject robot1 spatula drawer6 (1)
+[Robot2] Action: closeobject robot1 drawer6 (1)
+[Subtask 6] Completed! success=True
+[EXEC] Step 1 completed (unit makespans: [6, 6, 6])
+[DEBUG] Step 1 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask           0.00s ~   63.24s  (63.23s) [sid=1 act=gotoobject robot1 butterknife (1)]
+  blocking          7.25s ~   11.73s  (4.47s) [no_progress target=butterknife]
+  blocking         12.92s ~   24.18s  (11.27s) [no_progress target=butterknife]
+  blocking         36.00s ~   45.96s  (9.96s) [no_progress target=butterknife]
+  blocking         45.96s ~   47.95s  (1.99s) [no_progress target=butterknife]
+  blocking         50.30s ~   52.53s  (2.22s) [no_progress target=butterknife]
+  blocking         55.23s ~   61.07s  (5.84s) [no_progress target=butterknife]
+  subtask          63.24s ~   73.23s  (9.99s) [sid=1 act=pickupobject robot1 butterknife drawer (1)]
+  blocking         63.24s ~   68.83s  (5.59s) [no_progress target=butterknife]
+  subtask          73.23s ~   80.66s  (7.43s) [sid=1 act=gotoobject robot1 drawer1 (1)]
+  blocking         73.23s ~   79.08s  (5.85s) [no_progress target=drawer1]
+  subtask          80.66s ~   85.43s  (4.77s) [sid=1 act=openobject robot1 drawer1 (1)]
+  blocking         80.66s ~   82.95s  (2.29s) [no_progress target=drawer1]
+  subtask          85.43s ~   85.89s  (0.46s) [sid=1 act=drophandobject robot1 butterknife drawer1 (1)]
+  subtask          85.89s ~   87.76s  (1.87s) [sid=1 act=closeobject robot1 drawer1 (1)]
+  subtask          92.00s ~   93.58s  (1.58s) [sid=4 act=gotoobject robot1 knife (1)]
+  subtask          93.58s ~   94.75s  (1.17s) [sid=4 act=pickupobject robot1 knife countertop (1)]
+  subtask          94.75s ~   99.87s  (5.12s) [sid=4 act=gotoobject robot1 drawer4 (1)]
+  blocking         94.75s ~   97.33s  (2.58s) [no_progress target=drawer4]
+  subtask          99.88s ~  103.99s  (4.11s) [sid=4 act=openobject robot1 drawer4 (1)]
+  subtask         103.99s ~  104.49s  (0.50s) [sid=4 act=drophandobject robot1 knife drawer4 (1)]
+  subtask         104.49s ~  110.82s  (6.33s) [sid=4 act=closeobject robot1 drawer4 (1)]
+  blocking        104.49s ~  107.62s  (3.13s) [no_progress target=drawer4]
+  ──────────────────────────────────────────────────
+  blocking       total: 55.19s
+  subtask        total: 106.57s
+
+--- Robot 2 ---
+  subtask           0.00s ~   44.13s  (44.13s) [sid=3 act=gotoobject robot1 spoon (1)]
+  blocking          0.00s ~    1.75s  (1.75s) [no_progress target=spoon]
+  blocking          1.75s ~    3.31s  (1.56s) [no_progress target=spoon]
+  blocking          6.53s ~   10.58s  (4.05s) [no_progress target=spoon]
+  blocking         10.63s ~   19.16s  (8.53s) [no_progress target=spoon]
+  blocking         20.20s ~   28.90s  (8.71s) [no_progress target=spoon]
+  blocking         28.90s ~   37.97s  (9.07s) [no_progress target=spoon]
+  blocking         38.22s ~   42.48s  (4.26s) [no_progress target=spoon]
+  subtask          44.13s ~   45.66s  (1.53s) [sid=3 act=pickupobject robot1 spoon countertop (1)]
+  subtask          45.66s ~   59.03s  (13.37s) [sid=3 act=gotoobject robot1 drawer3 (1)]
+  blocking         45.66s ~   47.41s  (1.75s) [no_progress target=drawer3]
+  blocking         49.00s ~   51.78s  (2.77s) [no_progress target=drawer3]
+  blocking         51.78s ~   53.99s  (2.22s) [no_progress target=drawer3]
+  subtask          59.03s ~   61.73s  (2.70s) [sid=3 act=openobject robot1 drawer3 (1)]
+  subtask          61.73s ~   62.25s  (0.52s) [sid=3 act=drophandobject robot1 spoon drawer3 (1)]
+  subtask          62.25s ~   67.76s  (5.51s) [sid=3 act=closeobject robot1 drawer3 (1)]
+  blocking         62.25s ~   63.87s  (1.61s) [no_progress target=drawer3]
+  subtask          92.00s ~  112.81s  (20.81s) [sid=6 act=gotoobject robot1 spatula (1)]
+  blocking         92.00s ~   94.03s  (2.03s) [no_progress target=spatula]
+  blocking         94.03s ~   95.85s  (1.83s) [no_progress target=spatula]
+  blocking         95.85s ~   98.20s  (2.34s) [no_progress target=spatula]
+  blocking         99.11s ~  100.87s  (1.76s) [no_progress target=spatula]
+  blocking        100.87s ~  104.35s  (3.48s) [no_progress target=spatula]
+  blocking        108.68s ~  110.30s  (1.62s) [no_progress target=spatula]
+  subtask         112.81s ~  139.59s  (26.78s) [sid=6 act=pickupobject robot1 spatula countertop (1)]
+  subtask         139.59s ~  154.68s  (15.09s) [sid=6 act=gotoobject robot1 drawer6 (1)]
+  blocking        139.59s ~  149.62s  (10.03s) [no_progress target=drawer6]
+  subtask         154.68s ~  156.88s  (2.20s) [sid=6 act=openobject robot1 drawer6 (1)]
+  subtask         156.88s ~  157.15s  (0.27s) [sid=6 act=drophandobject robot1 spatula drawer6 (1)]
+  subtask         157.15s ~  163.54s  (6.39s) [sid=6 act=closeobject robot1 drawer6 (1)]
+  blocking        158.70s ~  161.95s  (3.25s) [no_progress target=drawer6]
+  ──────────────────────────────────────────────────
+  blocking       total: 72.61s
+  subtask        total: 139.29s
+
+--- Robot 3 ---
+  subtask           0.00s ~    3.71s  (3.70s) [sid=2 act=gotoobject robot1 fork (1)]
+  subtask           3.71s ~    5.26s  (1.55s) [sid=2 act=pickupobject robot1 fork countertop (1)]
+  subtask           5.26s ~    9.45s  (4.19s) [sid=2 act=gotoobject robot1 drawer2 (1)]
+  subtask           9.45s ~   11.41s  (1.96s) [sid=2 act=openobject robot1 drawer2 (1)]
+  subtask          11.41s ~   11.93s  (0.52s) [sid=2 act=drophandobject robot1 fork drawer2 (1)]
+  subtask          11.93s ~   17.95s  (6.02s) [sid=2 act=closeobject robot1 drawer2 (1)]
+  blocking         12.18s ~   14.62s  (2.44s) [no_progress target=drawer2]
+  blocking         14.62s ~   17.22s  (2.60s) [no_progress target=drawer2]
+  subtask          92.00s ~  124.67s  (32.67s) [sid=5 act=gotoobject robot1 ladle (1)]
+  blocking         92.00s ~   94.14s  (2.14s) [no_progress target=ladle]
+  blocking         94.14s ~   95.97s  (1.82s) [no_progress target=ladle]
+  blocking         95.97s ~  101.48s  (5.51s) [no_progress target=ladle]
+  blocking        101.48s ~  103.33s  (1.85s) [no_progress target=ladle]
+  blocking        104.92s ~  108.36s  (3.44s) [no_progress target=ladle]
+  blocking        109.32s ~  111.77s  (2.45s) [no_progress target=ladle]
+  blocking        111.77s ~  113.41s  (1.64s) [no_progress target=ladle]
+  blocking        113.41s ~  116.33s  (2.92s) [no_progress target=ladle]
+  blocking        116.82s ~  122.73s  (5.91s) [no_progress target=ladle]
+  subtask         124.67s ~  128.59s  (3.92s) [sid=5 act=pickupobject robot1 ladle countertop (1)]
+  subtask         128.59s ~  139.13s  (10.54s) [sid=5 act=gotoobject robot1 drawer5 (1)]
+  blocking        128.59s ~  130.24s  (1.65s) [no_progress target=drawer5]
+  blocking        130.65s ~  132.86s  (2.21s) [no_progress target=drawer5]
+  blocking        132.86s ~  135.48s  (2.62s) [no_progress target=drawer5]
+  subtask         139.13s ~  141.76s  (2.63s) [sid=5 act=openobject robot1 drawer5 (1)]
+  subtask         141.77s ~  142.27s  (0.50s) [sid=5 act=drophandobject robot1 ladle drawer5 (1)]
+  subtask         142.27s ~  149.54s  (7.27s) [sid=5 act=closeobject robot1 drawer5 (1)]
+  blocking        142.27s ~  146.11s  (3.84s) [no_progress target=drawer5]
+  ──────────────────────────────────────────────────
+  blocking       total: 43.05s
+  subtask        total: 75.48s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:0.632, Transport Rate:1.000, Steps:36, Makespan:12, WallMakespan:163.6s, Finished:True, SubtaskSR:1.000, Balance:1.000, Exec:1.000
+SR:1, GCR:0.632
+
+
+[Checker] Completed (22): ['NavigateTo(ButterKnife_1)', 'NavigateTo(Drawer_2, Fork_1)', 'NavigateTo(Drawer_3, Spoon_1)', 'NavigateTo(Drawer_4, Knife_1)', 'NavigateTo(Drawer_6, Spatula_1)', 'NavigateTo(Fork_1)', 'NavigateTo(Knife_1)', 'NavigateTo(Spatula_1)', 'NavigateTo(Spoon_1)', 'OpenObject(Drawer_2, Fork_1)', 'OpenObject(Drawer_3, Spoon_1)', 'OpenObject(Drawer_4, Knife_1)', 'OpenObject(Drawer_6, Spatula_1)', 'PickUpObject(ButterKnife_1)', 'PickUpObject(Fork_1)', 'PickUpObject(Knife_1)', 'PickUpObject(Spatula_1)', 'PickUpObject(Spoon_1)', 'PutObject(Drawer_2, Fork_1)', 'PutObject(Drawer_3, Spoon_1)', 'PutObject(Drawer_4, Knife_1)', 'PutObject(Drawer_6, Spatula_1)']
+[Checker] Missing (0): []
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 36/36
+[Feedback] All subtasks succeeded.
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 0
+  Fully successful replans: 0
+  PQ = 0/0 = 0.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 150,053 (prompt: 144,723, output: 5,330)
+  Replan   : 0 (prompt: 0, output: 0)
+  Total    : 150,053 (prompt: 144,723, output: 5,330)
+
+[[ TIMING ]]
+  Initial Planning : 71.7s
+  Replan Planning  : 0.0s
+  All Planning     : 71.7s
+  Execution        : 167.6s
+  Total            : 239.3s
+
+[RESULT-CSV] Append target: ./res/res.csv
+[Timeline] Saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/logs/timelines/timeline_config_type4_task0.txt
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread

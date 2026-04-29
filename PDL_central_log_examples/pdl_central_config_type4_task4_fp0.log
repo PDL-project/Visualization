@@ -1,0 +1,123 @@
+Setting Config Task to 4, with task name 'Make the living room dark'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan201'
+
+----Test set tasks----
+['Make the living room dark']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Make the living room dark: 1/1
+==================================================
+[PlanCache] Restored from AI2Thor/baselines/PDL_central/resources/plan_cache/config_type4_task4_fp0
+[PlanCache] Skipping LLM planning — using cached plan
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan201, agentCount=3
+[Robot1] Spawned at (-4.25, 5.25)
+[Robot2] Spawned at (-0.50, 0.50)
+[Robot3] Spawned at (-4.75, 1.00)
+[ObjectDict] WARNING: No sink-related types found
+[AI2-THOR] Ready!
+[Checker] Mapped 'Make the living room dark' -> '4_make_livingroom_dark'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 1 component(s) to schedule
+  Component 0: subtasks [1, 2, 3]
+[Component 0] Scheduled 1 phase(s): ['parallel'] for subtasks [1, 2, 3]
+[Component 0] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/resources/dag_outputs/schedules/component_0.json
+
+[EXEC] Execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_0(sids=[1, 2, 3], robots=[1, 2, 3])
+
+[EXEC] Step 0 executing: ['unit_0']
+[Robot2] Action: gotoobject robot1 floorlamp (1)
+[Robot1] Action: gotoobject robot1 desklamp (1)
+[Robot3] Action: gotoobject robot1 lightswitch (1)
+[Robot2] Action: switchoff robot1 floorlamp (1)
+[Subtask 1] Completed! success=True
+[Robot3] Action: switchoff robot1 lightswitch (1)
+[Subtask 3] Completed! success=True
+[Robot1] Action: switchoff robot1 desklamp (1)
+[Subtask 2] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [2])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask           2.92s ~   14.11s  (11.18s) [sid=2 act=gotoobject robot1 desklamp (1)]
+  subtask          14.11s ~   15.47s  (1.36s) [sid=2 act=switchoff robot1 desklamp (1)]
+  ──────────────────────────────────────────────────
+  subtask        total: 12.55s
+
+--- Robot 2 ---
+  subtask           2.92s ~    3.56s  (0.64s) [sid=1 act=gotoobject robot1 floorlamp (1)]
+  subtask           3.56s ~    4.91s  (1.35s) [sid=1 act=switchoff robot1 floorlamp (1)]
+  ──────────────────────────────────────────────────
+  subtask        total: 1.99s
+
+--- Robot 3 ---
+  subtask           2.93s ~    8.50s  (5.57s) [sid=3 act=gotoobject robot1 lightswitch (1)]
+  blocking          2.93s ~    5.57s  (2.65s) [no_progress target=lightswitch]
+  subtask           8.50s ~    9.18s  (0.68s) [sid=3 act=switchoff robot1 lightswitch (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 2.65s
+  subtask        total: 6.25s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:1.000, Transport Rate:1.000, Steps:6, Makespan:2, WallMakespan:15.5s, Finished:True, SubtaskSR:1.000, Balance:1.000, Exec:1.000
+SR:1, GCR:1.000
+
+
+[Checker] Completed (2): ['NavigateTo(LightSwitch_1)', 'ToggleObjectOff(LightSwitch_1)']
+[Checker] Missing (0): []
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 6/6
+[Feedback] All subtasks succeeded.
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 0
+  Fully successful replans: 0
+  PQ = 0/0 = 0.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 0 (prompt: 0, output: 0)
+  Replan   : 1,685 (prompt: 1,481, output: 204)
+  Total    : 1,685 (prompt: 1,481, output: 204)
+
+[[ TIMING ]]
+  Initial Planning : 0.0s
+  Replan Planning  : 0.0s
+  All Planning     : 0.0s
+  Execution        : 19.7s
+  Total            : 19.7s
+
+[RESULT-CSV] Append target: ./res/res.csv
+Error in main execution: list index out of range
+Full error: IndexError: list index out of range
+Traceback (most recent call last):
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 4472, in main
+    task_manager.log_results(
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 639, in log_results
+    for item in self.precondition_subtasks[idx]:
+IndexError: list index out of range
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread

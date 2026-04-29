@@ -1,0 +1,688 @@
+Setting Config Task to 2, with task name 'Clear the central countertop by placing items in their appropriate positions'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan1'
+
+----Test set tasks----
+['Clear the central countertop by placing items in their appropriate positions']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Clear the central countertop by placing items in their appropriate positions: 1/1
+==================================================
+[Token] +7,944 → total: 7,944
+✓ Decomposed plan generated
+✓ Parsed Decomposed Plan generated
+[Token] +9,973 → total: 17,917
+[Token] +9,977 → total: 27,894
+[Token] +9,994 → total: 37,888
+[Token] +9,980 → total: 47,868
+[Token] +9,960 → total: 57,828
+[Token] +10,013 → total: 67,841
+[Token] +10,025 → total: 77,866
+[Token] +10,043 → total: 87,909
+[Token] +10,001 → total: 97,910
+[Token] +9,988 → total: 107,898
+[Token] +9,979 → total: 117,877
+[Token] +10,026 → total: 127,903
+✓ Precondition Decomposed Plan generated
+[Token] +10,497 → total: 138,400
+[Token] +10,489 → total: 148,889
+[Token] +10,535 → total: 159,424
+[Token] +10,488 → total: 169,912
+[Token] +10,473 → total: 180,385
+[Token] +10,536 → total: 190,921
+[Token] +10,593 → total: 201,514
+[Token] +10,579 → total: 212,093
+[Token] +10,553 → total: 222,646
+[Token] +10,494 → total: 233,140
+[Token] +10,503 → total: 243,643
+[Token] +10,491 → total: 254,134
+✓ PDDL problems generated
+[Token] +3,839 → total: 257,973
+[Token] +3,835 → total: 261,808
+[Token] +3,861 → total: 265,669
+[Token] +3,833 → total: 269,502
+[Token] +3,826 → total: 273,328
+[Token] +3,869 → total: 277,197
+[Token] +3,899 → total: 281,096
+[Token] +3,888 → total: 284,984
+[Token] +3,876 → total: 288,860
+[Token] +3,838 → total: 292,698
+[Token] +3,845 → total: 296,543
+[Token] +3,840 → total: 300,383
+✓ DAG generated
+✓ Robot spawn positions: {1: (1.5, 0.900999128818512, 1.5), 2: (0.75, 0.900999128818512, -1.75), 3: (-1.25, 0.900999128818512, -1.0)}
+[Token] +2,648 → total: 303,031
+
+==================================================
+✓ LLM Task Allocation Result
+==================================================
+  Subtask 1 (Put the ButterKnife in Cabinet1.) -> Robot 3
+  Subtask 2 (Put the Fork in Cabinet1.) -> Robot 3
+  Subtask 3 (Put the Spatula in Cabinet2.) -> Robot 2
+  Subtask 4 (Put the Pot in Cabinet2.) -> Robot 2
+  Subtask 5 (Put the Mug in Cabinet3.) -> Robot 1
+  Subtask 6 (Put the SoapBottle in Cabinet3.) -> Robot 1
+  Subtask 7 (Put the PaperTowelRoll in Cabinet4.) -> Robot 3
+  Subtask 8 (Put the PepperShaker in Cabinet4.) -> Robot 2
+  Subtask 9 (Put the SaltShaker in Cabinet5.) -> Robot 1
+  Subtask 10 (Put the Tomato in Cabinet5.) -> Robot 1
+  Subtask 11 (Put the Lettuce in the Fridge.) -> Robot 2
+  Subtask 12 (Put the Apple in the Fridge.) -> Robot 3
+==================================================
+✓ Assignment Done
+[PlanCache] Saved to AI2Thor/baselines/PDL/resources/plan_cache/config_type4_task2_fp0
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan1, agentCount=3
+[Robot1] Spawned at (-0.75, 2.00)
+[Robot2] Spawned at (2.00, -2.00)
+[Robot3] Spawned at (-1.25, -1.50)
+[ObjectDict] Sink-related types: ['Sink']
+[AI2-THOR] Ready!
+[Checker] Mapped 'Clear the central countertop by placing items in their appropriate positions' -> '4_clear_countertop_kitchen'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 6 component(s) to schedule
+  Component 1: subtasks [1, 2]
+  Component 3: subtasks [3, 4]
+  Component 5: subtasks [5, 6]
+  Component 7: subtasks [7, 8]
+  Component 9: subtasks [9, 10]
+  Component 11: subtasks [11, 12]
+[Token] +2,036 → total: 305,067
+[Component 1] Scheduled 8 phase(s): ['parallel', 'sync_open', 'sync_put', 'sync_close', 'parallel', 'sync_open', 'sync_put', 'sync_close'] for subtasks [1, 2]
+[Component 1] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_1.json
+[Token] +2,042 → total: 307,109
+[Component 3] Scheduled 8 phase(s): ['parallel', 'sync_open', 'sync_put', 'sync_close', 'parallel', 'sync_open', 'sync_put', 'sync_close'] for subtasks [3, 4]
+[Component 3] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_3.json
+[Token] +2,049 → total: 309,158
+[Component 5] Scheduled 8 phase(s): ['parallel', 'sync_open', 'sync_put', 'sync_close', 'parallel', 'sync_open', 'sync_put', 'sync_close'] for subtasks [5, 6]
+[Component 5] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_5.json
+[Token] +1,902 → total: 311,060
+[Component 7] Scheduled 4 phase(s): ['parallel', 'sync_open', 'sync_put', 'sync_close'] for subtasks [7, 8]
+[Component 7] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_7.json
+[Token] +2,050 → total: 313,110
+[Component 9] Scheduled 8 phase(s): ['parallel', 'sync_open', 'sync_put', 'sync_close', 'parallel', 'sync_open', 'sync_put', 'sync_close'] for subtasks [9, 10]
+[Component 9] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_9.json
+[Token] +1,857 → total: 314,967
+[Component 11] Scheduled 4 phase(s): ['parallel', 'sync_open', 'sync_put', 'sync_close'] for subtasks [11, 12]
+[Component 11] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/dag_outputs/schedules/component_11.json
+
+[EXEC] Execution plan: 10 unit(s), 4 step(s)
+  Step 0: unit_s1(sids=[1], robots=[3]), unit_s3(sids=[3], robots=[2]), unit_s5(sids=[5], robots=[1])
+  Step 1: unit_s2(sids=[2], robots=[3]), unit_s4(sids=[4], robots=[2]), unit_s6(sids=[6], robots=[1])
+  Step 2: unit_7(sids=[7, 8], robots=[2, 3]), unit_s9(sids=[9], robots=[1])
+  Step 3: unit_s10(sids=[10], robots=[1]), unit_11(sids=[11, 12], robots=[2, 3])
+
+[EXEC] Step 0 executing: ['unit_s1', 'unit_s3', 'unit_s5']
+[Robot3] Action: gotoobject robot1 butterknife (1)
+[Robot2] Action: gotoobject robot1 spatula (1)
+[Robot1] Action: gotoobject robot1 mug (1)
+[Robot2] Action: pickupobject robot1 spatula countertop (1)
+[Robot2] Action: gotoobject robot1 cabinet2 (1)
+[Robot1] Action: pickupobject robot1 mug countertop (1)
+[Robot1] Action: gotoobject robot1 cabinet3 (1)
+[Robot1] Action: openobject robot1 cabinet3 (1)
+[Robot1] Action: drophandobject robot1 mug cabinet3 (1)
+[Robot1] Action: closeobject robot1 cabinet3 (1)
+[Robot3] Action: pickupobject robot1 butterknife countertop (1)
+[Subtask 5] Completed! success=True
+[Robot3] Action: gotoobject robot1 cabinet1 (1)
+[Robot3] Action: openobject robot1 cabinet1 (1)
+[Robot2] Action: openobject robot1 cabinet2 (1)
+[Robot3] Action: drophandobject robot1 butterknife cabinet1 (1)
+[Robot3] Action: closeobject robot1 cabinet1 (1)
+[Subtask 1] Completed! success=True
+[Robot2] Action: drophandobject robot1 spatula cabinet2 (1)
+[Robot2] Action: closeobject robot1 cabinet2 (1)
+[Subtask 3] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [6, 6, 6])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+
+[EXEC] Step 1 executing: ['unit_s2', 'unit_s4', 'unit_s6']
+[Robot3] Action: gotoobject robot1 fork (1)
+[Robot2] Action: gotoobject robot1 pot (1)
+[Robot1] Action: gotoobject robot1 soapbottle (1)
+[Robot2] Action: pickupobject robot1 pot countertop (1)
+[Robot3] Action: pickupobject robot1 fork countertop (1)
+[Robot2] Action: gotoobject robot1 cabinet2 (1)
+[Robot3] Action: gotoobject robot1 cabinet1 (1)
+[Robot2] Action: openobject robot1 cabinet2 (1)
+[Robot2] Action: drophandobject robot1 pot cabinet2 (1)
+[Robot2] Action: closeobject robot1 cabinet2 (1)
+[Robot3] Action: openobject robot1 cabinet1 (1)
+[Subtask 4] Completed! success=True
+[Robot3] Action: drophandobject robot1 fork cabinet1 (1)
+[Robot3] Action: closeobject robot1 cabinet1 (1)
+[Subtask 2] Completed! success=True
+[Robot1] Action: pickupobject robot1 soapbottle countertop (1)
+[Robot1] Action: gotoobject robot1 cabinet3 (1)
+[Robot1] Action: openobject robot1 cabinet3 (1)
+[Robot1] Action: drophandobject robot1 soapbottle cabinet3 (1)
+[Robot1] Action: closeobject robot1 cabinet3 (1)
+[Subtask 6] Completed! success=True
+[EXEC] Step 1 completed (unit makespans: [6, 6, 6])
+[DEBUG] Step 1 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+
+[EXEC] Step 2 executing: ['unit_7', 'unit_s9']
+[Robot3] Action: gotoobject robot1 papertowelroll (1)
+[Robot2] Action: gotoobject robot1 peppershaker (1)
+[Robot1] Action: gotoobject robot1 saltshaker (1)
+[Robot2] Action: pickupobject robot1 peppershaker countertop (1)
+[Robot2] Action: gotoobject robot1 cabinet4 (1)
+[Robot3] Action: pickupobject robot1 papertowelroll countertop (1)
+[Robot1] Action: pickupobject robot1 saltshaker countertop (1)
+[Robot1] Action: gotoobject robot1 cabinet5 (1)
+[Robot1] Action: openobject robot1 cabinet5 (1)
+[Robot1] Action: drophandobject robot1 saltshaker cabinet5 (1)
+[PutObject] Error: No valid positions to place object found
+[Robot1] PutObject failed or timed out for receptacle 'cabinet5'
+[Robot1] Subtask 9 failed, replan started (background), unit unit_s9 stopped
+[Replan] versioned folder: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_1
+
+============================================================
+[Feedback] Replan Group 9
+============================================================
+  - Failed subtask: 9
+  - Target subtasks: [9, 10]
+  - Action: group-level redecomposition
+
+============================================================
+[Feedback] Decomp Callback (Group 9)
+============================================================
+  - Subtasks in group: [9, 10]
+  - Failed subtask: 9
+  - Remaining pending: [10]
+  - Live object info: 76 objects
+  - Tasks to redecompose: [9, 10]
+[Robot3] Action: gotoobject robot1 cabinet4 (1)
+[Token] +3,601 → total: 318,568
+  [Parser] LLM response → 2 subtask(s) parsed
+  Redecomposed into 2 new subtasks
+[Token] +10,851 → total: 329,419
+[Robot3] Action: openobject robot1 cabinet4 (1)
+[Robot3] Action: drophandobject robot1 papertowelroll cabinet4 (1)
+[Robot2] Action: drophandobject robot1 peppershaker cabinet4 (1)
+[Subtask 8] Completed! success=True
+[Robot3] Action: closeobject robot1 cabinet4 (1)
+[Token] +10,994 → total: 340,413
+[Token] +4,982 → total: 345,395
+[Subtask 7] Completed! success=True
+[EXEC] Step 2 completed (unit makespans: [6, 4])
+[DEBUG] Step 2 post-check: pending_replans=1, replanned=False, aborted_sids={10, 5, 6}
+
+[EXEC] Waiting for 1 background replan thread(s)...
+[Token] +5,054 → total: 350,449
+  Saving generated files...
+    [DEBUG] Saving precondition: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_1/precondition_subtasks/pre_09_Place_the_SaltShaker_in_a_different_Cabinet_REPLAN.txt (text length: 971)
+    [DEBUG] Saving precondition: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_1/precondition_subtasks/pre_10_Put_the_Tomato_in_Cabinet5_REPLAN.txt (text length: 1290)
+  Validating regenerated PDDL problems (replan)...
+  Running planner for new subtasks...
+    Subtask 9: ✓ 3 actions
+    Subtask 10: ✓ 5 actions
+
+  ✓ Successfully generated 2 new plans
+============================================================
+
+  - Group result: REPLANNED
+
+============================================================
+[DAG Integration] Integrating replanned subtasks into DAG
+============================================================
+  Loaded original DAG with 12 nodes
+
+  Generating new DAG for replanned subtasks...
+    Subtask 9: 3 actions
+    Subtask 10: 5 actions
+  Generated new DAG: 2 nodes, 2 edges
+  Merged DAG: 12 nodes, 6 edges
+  ✓ Backup saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_1/dag/task_SUBTASK_DAG_before.json
+
+============================================================
+[LP Reallocation] Recomputing task assignment
+============================================================
+  [Holding forced] Subtask 9 → Robot1 (holding {'saltshaker'})
+[Token] +2,847 → total: 353,296
+
+  [LLM Result]
+    Subtask 1 (subtask_01_Put_the_ButterKnife_in_Cabinet1) → Robot 3
+    Subtask 2 (subtask_02_Put_the_Fork_in_Cabinet1) → Robot 3
+    Subtask 3 (subtask_03_Put_the_Spatula_in_Cabinet2) → Robot 2
+    Subtask 4 (subtask_04_Put_the_Pot_in_Cabinet2) → Robot 2
+    Subtask 5 (subtask_05_Put_the_Mug_in_Cabinet3) → Robot 1
+    Subtask 6 (subtask_06_Put_the_SoapBottle_in_Cabinet3) → Robot 1
+    Subtask 7 (subtask_07_Put_the_PaperTowelRoll_in_Cabinet4) → Robot 3
+    Subtask 8 (subtask_08_Put_the_PepperShaker_in_Cabinet4) → Robot 2
+    Subtask 9 (subtask_09_Place_the_SaltShaker_in_a_different_Cabinet_REPLAN) → Robot 1
+    Subtask 10 (subtask_10_Put_the_Tomato_in_Cabinet5_REPLAN) → Robot 1
+    Subtask 11 (subtask_11_Put_the_Lettuce_in_the_Fridge) → Robot 2
+    Subtask 12 (subtask_12_Put_the_Apple_in_the_Fridge) → Robot 3
+============================================================
+
+
+[Executor Reload] Group-level reload...
+  ✓ Group-level reload: removed=[], added/updated=[9, 10]
+  ✓ Reload complete (12 subtask plans active)
+[EXEC] Replan complete, rebuilding execution plan...
+[Token] +1,736 → total: 355,032
+[REBUILD] Component 9 re-scheduled: 4 phase(s), subtasks=[9, 10]
+[REBUILD] Component 11 unchanged: subtasks=[11, 12]
+[REBUILD] New execution plan: 3 unit(s), 2 step(s)
+  Step 0: unit_s9(sids=[9], robots=[1]), unit_11(sids=[11, 12], robots=[2, 3])
+  Step 1: unit_s10(sids=[10], robots=[1])
+
+[EXEC] Step 0 executing: ['unit_s9', 'unit_11']
+[Robot1] Action: gotoobject robot1 cabinet2 (1)[Robot2] Action: gotoobject robot1 lettuce (1)
+
+[Robot3] Action: gotoobject robot1 apple (1)
+[Robot1] Action: openobject robot1 cabinet2 (1)
+[Robot1] Action: drophandobject robot1 saltshaker cabinet2 (1)
+[Subtask 9] Completed! success=True
+[Robot2] Action: pickupobject robot1 lettuce countertop (1)
+[Robot2] Action: gotoobject robot1 fridge (1)
+[Robot3] Action: pickupobject robot1 apple countertop (1)
+[Robot3] Action: gotoobject robot1 fridge (1)
+[Robot2] Action: openfridge robot1 fridge (1)
+[Robot2] Action: putobjectinfridge robot1 lettuce fridge (1)[Robot3] Action: putobjectinfridge robot1 apple fridge (1)
+
+[Subtask 12] Completed! success=True
+[Robot2] Action: closeobject robot1 fridge (1)
+[Subtask 11] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [7, 6])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+
+[EXEC] Step 1 executing: ['unit_s10']
+[Robot1] Action: gotoobject robot1 tomato (1)
+[Robot1] Action: pickupobject robot1 tomato countertop (1)
+[Robot1] Action: gotoobject robot1 cabinet5 (1)
+[Robot1] Action: drophandobject robot1 tomato cabinet5 (1)
+[PutObject] Error: No valid positions to place object found
+[Robot1] PutObject failed or timed out for receptacle 'cabinet5'
+[Robot1] Subtask 10 failed, replan started (background), unit unit_s10 stopped
+[EXEC] Step 1 completed (unit makespans: [3])
+[DEBUG] Step 1 post-check: pending_replans=1, replanned=False, aborted_sids={9, 5, 6}
+
+[EXEC] Waiting for 1 background replan thread(s)...
+[Replan] versioned folder: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_2
+
+============================================================
+[Feedback] Replan Group 10
+============================================================
+  - Failed subtask: 10
+  - Target subtasks: [9, 10]
+  - Action: group-level redecomposition
+
+============================================================
+[Feedback] Decomp Callback (Group 10)
+============================================================
+  - Subtasks in group: [9, 10]
+  - Failed subtask: 10
+  - Remaining pending: []
+  - Live object info: 76 objects
+  - Tasks to redecompose: [10]
+[Token] +3,703 → total: 358,735
+  [Parser] LLM response → 1 subtask(s) parsed
+  Redecomposed into 1 new subtasks
+[Token] +11,285 → total: 370,020
+[Token] +5,465 → total: 375,485
+  Saving generated files...
+    [DEBUG] Saving precondition: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_2/precondition_subtasks/pre_10_Place_the_Tomato_in_a_different_Cabinet_REPLAN.txt (text length: 1491)
+  Validating regenerated PDDL problems (replan)...
+  Running planner for new subtasks...
+    Subtask 10: ✓ 6 actions
+
+  ✓ Successfully generated 1 new plans
+============================================================
+
+  - Group result: REPLANNED
+
+============================================================
+[DAG Integration] Integrating replanned subtasks into DAG
+============================================================
+  Loaded original DAG with 12 nodes
+
+  Generating new DAG for replanned subtasks...
+    Subtask 10: 6 actions
+  Generated new DAG: 1 nodes, 0 edges
+  Merged DAG: 12 nodes, 5 edges
+  ✓ Backup saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_2/dag/task_SUBTASK_DAG_before.json
+
+============================================================
+[LP Reallocation] Recomputing task assignment
+============================================================
+  [Holding forced] Subtask 10 → Robot1 (holding {'tomato'})
+[Token] +2,837 → total: 378,322
+
+  [LLM Result]
+    Subtask 1 (subtask_01_Put_the_ButterKnife_in_Cabinet1) → Robot 3
+    Subtask 2 (subtask_02_Put_the_Fork_in_Cabinet1) → Robot 3
+    Subtask 3 (subtask_03_Put_the_Spatula_in_Cabinet2) → Robot 2
+    Subtask 4 (subtask_04_Put_the_Pot_in_Cabinet2) → Robot 2
+    Subtask 5 (subtask_05_Put_the_Mug_in_Cabinet3) → Robot 1
+    Subtask 6 (subtask_06_Put_the_SoapBottle_in_Cabinet3) → Robot 1
+    Subtask 7 (subtask_07_Put_the_PaperTowelRoll_in_Cabinet4) → Robot 3
+    Subtask 8 (subtask_08_Put_the_PepperShaker_in_Cabinet4) → Robot 2
+    Subtask 9 (subtask_09_Place_the_SaltShaker_in_a_different_Cabinet_REPLAN) → Robot 1
+    Subtask 10 (subtask_10_Place_the_Tomato_in_a_different_Cabinet_REPLAN) → Robot 1
+    Subtask 11 (subtask_11_Put_the_Lettuce_in_the_Fridge) → Robot 2
+    Subtask 12 (subtask_12_Put_the_Apple_in_the_Fridge) → Robot 3
+============================================================
+
+
+[Executor Reload] Group-level reload...
+  ✓ Group-level reload: removed=[9], added/updated=[10]
+  ✓ Reload complete (11 subtask plans active)
+[EXEC] Replan complete, rebuilding execution plan...
+[REBUILD] Component 9 re-scheduled: 1 phase(s), subtasks=[10]
+[REBUILD] New execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_s10(sids=[10], robots=[1])
+
+[EXEC] Step 0 executing: ['unit_s10']
+[Robot1] Action: gotoobject robot1 tomato (1)
+[Robot1] Action: pickupobject robot1 tomato floor (1)
+[PickupObject] Error: InvalidOperationException: Agent hand has something in it already! Can't pick up anything else. trace:   at UnityStandardAssets.Characters.FirstPerson.PhysicsRemoteFPSAgentController.pickupObject (SimObjPhysics target, System.Boolean forceAction, System.Boolean manualInteract, System.Boolean markActionFinished) [0x0003c] in <40d6a6c54fa349fab67f7470c3432f83>:0 
+  at UnityStandardAssets.Characters.FirstPerson.PhysicsRemoteFPSAgentController.PickupObject (System.String objectId, System.Boolean forceAction, System.Boolean manualInteract) [0x00009] in <40d6a6c54fa349fab67f7470c3432f83>:0 
+  at (wrapper managed-to-native) System.Reflection.MonoMethod.InternalInvoke(System.Reflection.MonoMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoMethod.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x00032] in <695d1cc93cca45069c528c15c9fdd749>:0 
+[Robot1] Subtask 10 failed, replan started (background), unit unit_s10 stopped
+[EXEC] Step 0 completed (unit makespans: [4])
+[DEBUG] Step 0 post-check: pending_replans=1, replanned=False, aborted_sids={5, 6}
+
+[EXEC] Waiting for 1 background replan thread(s)...
+[Replan] versioned folder: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_3
+
+============================================================
+[Feedback] Replan Group 10
+============================================================
+  - Failed subtask: 10
+  - Target subtasks: [10]
+  - Action: group-level redecomposition
+
+============================================================
+[Feedback] Decomp Callback (Group 10)
+============================================================
+  - Subtasks in group: [10]
+  - Failed subtask: 10
+  - Remaining pending: []
+  - Live object info: 76 objects
+  - Tasks to redecompose: [10]
+[Token] +4,176 → total: 382,498
+  [Parser] LLM response → 1 subtask(s) parsed
+  Redecomposed into 1 new subtasks
+[Token] +11,790 → total: 394,288
+[Token] +5,967 → total: 400,255
+  Saving generated files...
+    [DEBUG] Saving precondition: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_3/precondition_subtasks/pre_10_Place_the_Tomato_in_a_different_Cabinet_REPLAN.txt (text length: 1172)
+  Validating regenerated PDDL problems (replan)...
+  Running planner for new subtasks...
+    Subtask 10: ✓ 3 actions
+
+  ✓ Successfully generated 1 new plans
+============================================================
+
+  - Group result: REPLANNED
+
+============================================================
+[DAG Integration] Integrating replanned subtasks into DAG
+============================================================
+  Loaded original DAG with 12 nodes
+
+  Generating new DAG for replanned subtasks...
+    Subtask 10: 3 actions
+  Generated new DAG: 1 nodes, 0 edges
+  Merged DAG: 12 nodes, 5 edges
+  ✓ Backup saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/replan_3/dag/task_SUBTASK_DAG_before.json
+
+============================================================
+[LP Reallocation] Recomputing task assignment
+============================================================
+  [Holding forced] Subtask 10 → Robot1 (holding {'tomato'})
+[Token] +2,810 → total: 403,065
+
+  [LLM Result]
+    Subtask 1 (subtask_01_Put_the_ButterKnife_in_Cabinet1) → Robot 3
+    Subtask 2 (subtask_02_Put_the_Fork_in_Cabinet1) → Robot 3
+    Subtask 3 (subtask_03_Put_the_Spatula_in_Cabinet2) → Robot 2
+    Subtask 4 (subtask_04_Put_the_Pot_in_Cabinet2) → Robot 2
+    Subtask 5 (subtask_05_Put_the_Mug_in_Cabinet3) → Robot 1
+    Subtask 6 (subtask_06_Put_the_SoapBottle_in_Cabinet3) → Robot 1
+    Subtask 7 (subtask_07_Put_the_PaperTowelRoll_in_Cabinet4) → Robot 3
+    Subtask 8 (subtask_08_Put_the_PepperShaker_in_Cabinet4) → Robot 2
+    Subtask 9 (subtask_09_Place_the_SaltShaker_in_a_different_Cabinet_REPLAN) → Robot 1
+    Subtask 10 (subtask_10_Place_the_Tomato_in_a_different_Cabinet_REPLAN) → Robot 1
+    Subtask 11 (subtask_11_Put_the_Lettuce_in_the_Fridge) → Robot 2
+    Subtask 12 (subtask_12_Put_the_Apple_in_the_Fridge) → Robot 3
+============================================================
+
+
+[Executor Reload] Group-level reload...
+  ✓ Group-level reload: removed=[], added/updated=[10]
+  ✓ Reload complete (11 subtask plans active)
+[EXEC] Replan complete, rebuilding execution plan...
+[REBUILD] Component 9 re-scheduled: 1 phase(s), subtasks=[10]
+[REBUILD] New execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_s10(sids=[10], robots=[1])
+
+[EXEC] Step 0 executing: ['unit_s10']
+[Robot1] Action: gotoobject robot1 cabinet (1)
+[Robot1] Action: openobject robot1 cabinet (1)
+[Robot1] Action: drophandobject robot1 tomato cabinet (1)
+[Subtask 10] Completed! success=True
+[EXEC] Step 0 completed (unit makespans: [7])
+[DEBUG] Step 0 post-check: pending_replans=0, replanned=False, aborted_sids=set()
+[Central] Robot1 all tasks done → now available for reassignment
+[Central] Robot2 all tasks done → now available for reassignment
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask          18.45s ~   29.21s  (10.76s) [sid=5 act=gotoobject robot1 mug (1)]
+  subtask          29.21s ~   30.50s  (1.29s) [sid=5 act=pickupobject robot1 mug countertop (1)]
+  subtask          30.50s ~   33.65s  (3.15s) [sid=5 act=gotoobject robot1 cabinet3 (1)]
+  blocking         30.50s ~   33.17s  (2.66s) [no_progress target=cabinet3]
+  subtask          33.65s ~   37.99s  (4.34s) [sid=5 act=openobject robot1 cabinet3 (1)]
+  blocking         33.65s ~   35.89s  (2.24s) [no_progress target=cabinet3]
+  subtask          38.00s ~   38.43s  (0.43s) [sid=5 act=drophandobject robot1 mug cabinet3 (1)]
+  subtask          38.43s ~   39.83s  (1.40s) [sid=5 act=closeobject robot1 cabinet3 (1)]
+  subtask          87.13s ~  103.80s  (16.67s) [sid=6 act=gotoobject robot1 soapbottle (1)]
+  blocking         94.50s ~   96.83s  (2.32s) [no_progress target=soapbottle]
+  blocking         97.01s ~  100.67s  (3.67s) [no_progress target=soapbottle]
+  subtask         103.80s ~  104.51s  (0.71s) [sid=6 act=pickupobject robot1 soapbottle countertop (1)]
+  subtask         104.51s ~  108.67s  (4.16s) [sid=6 act=gotoobject robot1 cabinet3 (1)]
+  blocking        104.51s ~  106.52s  (2.01s) [no_progress target=cabinet3]
+  subtask         108.67s ~  111.37s  (2.70s) [sid=6 act=openobject robot1 cabinet3 (1)]
+  subtask         111.37s ~  111.61s  (0.24s) [sid=6 act=drophandobject robot1 soapbottle cabinet3 (1)]
+  subtask         111.61s ~  112.25s  (0.64s) [sid=6 act=closeobject robot1 cabinet3 (1)]
+  subtask         112.26s ~  140.74s  (28.49s) [sid=9 act=gotoobject robot1 saltshaker (1)]
+  blocking        112.36s ~  114.09s  (1.73s) [no_progress target=saltshaker]
+  blocking        114.29s ~  119.45s  (5.16s) [no_progress target=saltshaker]
+  blocking        120.43s ~  122.78s  (2.35s) [no_progress target=saltshaker]
+  blocking        122.78s ~  128.25s  (5.48s) [no_progress target=saltshaker]
+  blocking        128.25s ~  130.12s  (1.87s) [no_progress target=saltshaker]
+  blocking        130.78s ~  132.93s  (2.15s) [no_progress target=saltshaker]
+  blocking        132.93s ~  134.93s  (1.99s) [no_progress target=saltshaker]
+  blocking        136.62s ~  138.83s  (2.21s) [no_progress target=saltshaker]
+  subtask         140.75s ~  145.18s  (4.43s) [sid=9 act=pickupobject robot1 saltshaker countertop (1)]
+  subtask         145.18s ~  156.46s  (11.28s) [sid=9 act=gotoobject robot1 cabinet5 (1)]
+  blocking        145.18s ~  147.53s  (2.35s) [no_progress target=cabinet5]
+  blocking        151.56s ~  153.81s  (2.26s) [no_progress target=cabinet5]
+  subtask         156.46s ~  159.51s  (3.05s) [sid=9 act=openobject robot1 cabinet5 (1)]
+  subtask         159.51s ~  161.80s  (2.29s) [sid=9 act=drophandobject robot1 saltshaker cabinet5 (1)]
+  replan_wait     161.80s ~  179.20s  (17.40s) [sid=9 failed]
+  subtask         180.94s ~  189.80s  (8.87s) [sid=9 act=gotoobject robot1 cabinet2 (1)]
+  blocking        180.94s ~  183.72s  (2.78s) [no_progress target=cabinet2]
+  subtask         189.81s ~  192.68s  (2.88s) [sid=9 act=openobject robot1 cabinet2 (1)]
+  subtask         192.69s ~  193.12s  (0.44s) [sid=9 act=drophandobject robot1 saltshaker cabinet2 (1)]
+  subtask         270.66s ~  304.46s  (33.80s) [sid=10 act=gotoobject robot1 tomato (1)]
+  blocking        270.66s ~  273.60s  (2.94s) [no_progress target=tomato]
+  blocking        273.60s ~  276.95s  (3.34s) [no_progress target=tomato]
+  blocking        276.95s ~  278.76s  (1.81s) [no_progress target=tomato]
+  blocking        278.76s ~  286.02s  (7.26s) [no_progress target=tomato]
+  blocking        287.53s ~  290.43s  (2.90s) [no_progress target=tomato]
+  blocking        292.76s ~  296.51s  (3.75s) [no_progress target=tomato]
+  blocking        299.08s ~  300.99s  (1.91s) [no_progress target=tomato]
+  subtask         304.47s ~  310.61s  (6.14s) [sid=10 act=pickupobject robot1 tomato countertop (1)]
+  blocking        304.47s ~  307.23s  (2.76s) [no_progress target=tomato]
+  subtask         310.61s ~  316.28s  (5.67s) [sid=10 act=gotoobject robot1 cabinet5 (1)]
+  blocking        310.61s ~  312.76s  (2.15s) [no_progress target=cabinet5]
+  subtask         316.28s ~  322.43s  (6.15s) [sid=10 act=drophandobject robot1 tomato cabinet5 (1)]
+  replan_wait     322.43s ~  332.23s  (9.80s) [sid=10 failed]
+  subtask         332.23s ~  332.79s  (0.56s) [sid=10 act=gotoobject robot1 tomato (1)]
+  subtask         332.79s ~  335.34s  (2.55s) [sid=10 act=pickupobject robot1 tomato floor (1)]
+  replan_wait     335.34s ~  347.06s  (11.72s) [sid=10 failed]
+  subtask         347.06s ~  347.57s  (0.51s) [sid=10 act=gotoobject robot1 cabinet (1)]
+  subtask         347.58s ~  349.25s  (1.68s) [sid=10 act=openobject robot1 cabinet (1)]
+  subtask         349.26s ~  349.51s  (0.26s) [sid=10 act=drophandobject robot1 tomato cabinet (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 72.07s
+  replan_wait    total: 38.92s
+  subtask        total: 165.50s
+
+--- Robot 2 ---
+  subtask          18.45s ~   24.23s  (5.78s) [sid=3 act=gotoobject robot1 spatula (1)]
+  subtask          24.23s ~   25.82s  (1.59s) [sid=3 act=pickupobject robot1 spatula countertop (1)]
+  subtask          25.82s ~   80.11s  (54.29s) [sid=3 act=gotoobject robot1 cabinet2 (1)]
+  blocking         25.82s ~   28.79s  (2.97s) [no_progress target=cabinet2]
+  blocking         29.70s ~   60.64s  (30.93s) [no_progress target=cabinet2]
+  blocking         60.64s ~   63.44s  (2.80s) [no_progress target=cabinet2]
+  blocking         63.44s ~   67.12s  (3.68s) [no_progress target=cabinet2]
+  blocking         67.12s ~   70.55s  (3.43s) [no_progress target=cabinet2]
+  blocking         70.65s ~   72.83s  (2.18s) [no_progress target=cabinet2]
+  blocking         72.83s ~   75.19s  (2.36s) [no_progress target=cabinet2]
+  blocking         76.34s ~   78.60s  (2.27s) [no_progress target=cabinet2]
+  subtask          80.11s ~   85.61s  (5.50s) [sid=3 act=openobject robot1 cabinet2 (1)]
+  subtask          85.61s ~   85.92s  (0.31s) [sid=3 act=drophandobject robot1 spatula cabinet2 (1)]
+  subtask          85.92s ~   87.11s  (1.19s) [sid=3 act=closeobject robot1 cabinet2 (1)]
+  subtask          87.13s ~   89.36s  (2.24s) [sid=4 act=gotoobject robot1 pot (1)]
+  blocking         87.13s ~   88.90s  (1.78s) [no_progress target=pot]
+  subtask          89.36s ~   92.97s  (3.60s) [sid=4 act=pickupobject robot1 pot countertop (1)]
+  blocking         89.36s ~   91.59s  (2.22s) [no_progress target=pot]
+  subtask          92.97s ~   93.75s  (0.78s) [sid=4 act=gotoobject robot1 cabinet2 (1)]
+  subtask          93.75s ~   96.69s  (2.94s) [sid=4 act=openobject robot1 cabinet2 (1)]
+  subtask          96.69s ~   97.03s  (0.34s) [sid=4 act=drophandobject robot1 pot cabinet2 (1)]
+  subtask          97.03s ~   98.86s  (1.83s) [sid=4 act=closeobject robot1 cabinet2 (1)]
+  subtask         112.26s ~  117.71s  (5.45s) [sid=8 act=gotoobject robot1 peppershaker (1)]
+  subtask         117.72s ~  121.89s  (4.17s) [sid=8 act=pickupobject robot1 peppershaker countertop (1)]
+  subtask         121.89s ~  127.24s  (5.36s) [sid=8 act=gotoobject robot1 cabinet4 (1)]
+  subtask         169.90s ~  170.14s  (0.24s) [sid=8 act=drophandobject robot1 peppershaker cabinet4 (1)]
+  subtask         180.94s ~  229.25s  (48.31s) [sid=11 act=gotoobject robot1 lettuce (1)]
+  blocking        180.94s ~  184.84s  (3.90s) [no_progress target=lettuce]
+  blocking        194.92s ~  200.02s  (5.10s) [no_progress target=lettuce]
+  blocking        203.25s ~  207.49s  (4.23s) [no_progress target=lettuce]
+  blocking        210.39s ~  212.19s  (1.81s) [no_progress target=lettuce]
+  blocking        212.19s ~  214.22s  (2.03s) [no_progress target=lettuce]
+  blocking        223.83s ~  229.04s  (5.22s) [no_progress target=lettuce]
+  subtask         229.25s ~  239.08s  (9.83s) [sid=11 act=pickupobject robot1 lettuce countertop (1)]
+  blocking        229.25s ~  233.08s  (3.84s) [no_progress target=lettuce]
+  subtask         239.08s ~  255.04s  (15.95s) [sid=11 act=gotoobject robot1 fridge (1)]
+  blocking        240.16s ~  242.59s  (2.43s) [no_progress target=fridge]
+  blocking        243.56s ~  249.30s  (5.74s) [no_progress target=fridge]
+  blocking        249.30s ~  253.09s  (3.79s) [no_progress target=fridge]
+  subtask         266.71s ~  268.65s  (1.94s) [sid=11 act=openfridge robot1 fridge (1)]
+  subtask         268.65s ~  268.95s  (0.30s) [sid=11 act=putobjectinfridge robot1 lettuce fridge (1)]
+  subtask         269.15s ~  270.05s  (0.90s) [sid=11 act=closeobject robot1 fridge (1)]
+  idle            270.66s ~  322.43s  (51.77s) [step=1]
+  idle            332.23s ~  335.34s  (3.11s) [step=0]
+  idle            347.06s ~  349.53s  (2.47s) [step=0]
+  ──────────────────────────────────────────────────
+  blocking       total: 92.71s
+  idle           total: 57.34s
+  subtask        total: 172.84s
+
+--- Robot 3 ---
+  subtask          18.45s ~   38.50s  (20.06s) [sid=1 act=gotoobject robot1 butterknife (1)]
+  blocking         18.45s ~   21.94s  (3.49s) [no_progress target=butterknife]
+  blocking         24.73s ~   30.81s  (6.08s) [no_progress target=butterknife]
+  blocking         30.81s ~   37.92s  (7.11s) [no_progress target=butterknife]
+  subtask          38.51s ~   66.86s  (28.35s) [sid=1 act=pickupobject robot1 butterknife countertop (1)]
+  blocking         38.51s ~   40.34s  (1.83s) [no_progress target=butterknife]
+  blocking         40.34s ~   45.43s  (5.09s) [no_progress target=butterknife]
+  blocking         45.43s ~   47.25s  (1.82s) [no_progress target=butterknife]
+  blocking         48.34s ~   52.00s  (3.66s) [no_progress target=butterknife]
+  blocking         52.00s ~   54.76s  (2.76s) [no_progress target=butterknife]
+  blocking         55.72s ~   59.89s  (4.17s) [no_progress target=butterknife]
+  subtask          66.86s ~   79.17s  (12.32s) [sid=1 act=gotoobject robot1 cabinet1 (1)]
+  subtask          79.18s ~   81.16s  (1.98s) [sid=1 act=openobject robot1 cabinet1 (1)]
+  subtask          81.16s ~   81.44s  (0.28s) [sid=1 act=drophandobject robot1 butterknife cabinet1 (1)]
+  subtask          81.44s ~   83.01s  (1.57s) [sid=1 act=closeobject robot1 cabinet1 (1)]
+  subtask          87.12s ~   91.83s  (4.70s) [sid=2 act=gotoobject robot1 fork (1)]
+  blocking         87.12s ~   90.02s  (2.89s) [no_progress target=fork]
+  subtask          91.83s ~   93.68s  (1.85s) [sid=2 act=pickupobject robot1 fork countertop (1)]
+  subtask          93.68s ~   98.34s  (4.66s) [sid=2 act=gotoobject robot1 cabinet1 (1)]
+  blocking         93.68s ~   97.86s  (4.18s) [no_progress target=cabinet1]
+  subtask          98.34s ~  101.65s  (3.31s) [sid=2 act=openobject robot1 cabinet1 (1)]
+  subtask         101.65s ~  101.94s  (0.29s) [sid=2 act=drophandobject robot1 fork cabinet1 (1)]
+  subtask         101.94s ~  103.16s  (1.22s) [sid=2 act=closeobject robot1 cabinet1 (1)]
+  subtask         112.26s ~  132.44s  (20.19s) [sid=7 act=gotoobject robot1 papertowelroll (1)]
+  blocking        112.26s ~  115.36s  (3.10s) [no_progress target=papertowelroll]
+  subtask         132.45s ~  162.04s  (29.60s) [sid=7 act=pickupobject robot1 papertowelroll countertop (1)]
+  blocking        132.60s ~  137.36s  (4.77s) [no_progress target=papertowelroll]
+  blocking        137.36s ~  147.66s  (10.30s) [no_progress target=papertowelroll]
+  blocking        154.77s ~  157.06s  (2.29s) [no_progress target=papertowelroll]
+  subtask         162.05s ~  168.22s  (6.18s) [sid=7 act=gotoobject robot1 cabinet4 (1)]
+  blocking        163.15s ~  165.51s  (2.35s) [no_progress target=cabinet4]
+  subtask         168.23s ~  169.89s  (1.67s) [sid=7 act=openobject robot1 cabinet4 (1)]
+  subtask         169.90s ~  170.30s  (0.41s) [sid=7 act=drophandobject robot1 papertowelroll cabinet4 (1)]
+  subtask         170.30s ~  172.74s  (2.43s) [sid=7 act=closeobject robot1 cabinet4 (1)]
+  subtask         180.94s ~  254.38s  (73.44s) [sid=12 act=gotoobject robot1 apple (1)]
+  blocking        180.94s ~  193.08s  (12.14s) [no_progress target=apple]
+  blocking        193.08s ~  213.48s  (20.40s) [no_progress target=apple]
+  blocking        213.48s ~  233.88s  (20.40s) [no_progress target=apple]
+  subtask         254.39s ~  262.29s  (7.91s) [sid=12 act=pickupobject robot1 apple countertop (1)]
+  subtask         262.29s ~  266.71s  (4.42s) [sid=12 act=gotoobject robot1 fridge (1)]
+  subtask         268.65s ~  269.14s  (0.48s) [sid=12 act=putobjectinfridge robot1 apple fridge (1)]
+  idle            270.66s ~  322.43s  (51.77s) [step=1]
+  idle            332.23s ~  335.34s  (3.11s) [step=0]
+  idle            347.06s ~  349.53s  (2.47s) [step=0]
+  ──────────────────────────────────────────────────
+  blocking       total: 118.84s
+  idle           total: 57.34s
+  subtask        total: 227.30s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:1.000, Transport Rate:0.706, Steps:73, Makespan:39, WallMakespan:349.5s, Finished:False, SubtaskSR:0.706, Balance:0.933, Exec:0.959
+SR:0, GCR:1.000
+
+
+[Checker] Completed (12): ['CloseObject(Fridge_1)', 'NavigateTo(Apple_1)', 'NavigateTo(ButterKnife_1)', 'NavigateTo(Fork_1)', 'NavigateTo(Fridge_1, Apple_1)', 'NavigateTo(Tomato_1)', 'OpenObject(Fridge_1)', 'PickUpObject(Apple_1)', 'PickUpObject(ButterKnife_1)', 'PickUpObject(Fork_1)', 'PickUpObject(Tomato_1)', 'PutObject(Fridge_1, Apple_1)']
+[Checker] Missing (5): ['NavigateTo(Drawer, Fork)', 'NavigateTo(Fridge, Tomato)', 'OpenObject(Drawer, Fork)', 'PutObject(Drawer, Fork)', 'PutObject(Fridge, Tomato)']
+[Checker] Dropped (physically impossible): subtask IDs [9]
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 70/73
+[Feedback] All feasible subtasks succeeded. Dropped (impossible): [9]
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 3
+  Fully successful replans: 2
+  PQ = 2/3 = 0.667
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 303,031 (prompt: 292,138, output: 10,893)
+  Replan   : 100,034 (prompt: 94,466, output: 5,568)
+  Total    : 403,065 (prompt: 386,604, output: 16,461)
+
+[[ TIMING ]]
+  Initial Planning : 127.6s
+  Replan Planning  : 38.8s
+  All Planning     : 166.5s
+  Execution        : 315.8s
+  Total            : 482.3s
+
+[RESULT-CSV] Append target: ./res/res.csv
+[Timeline] Saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL/resources/logs/timelines/timeline_config_type4_task0.txt

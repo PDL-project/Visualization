@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Robot State Timeline Viewer</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0a1120;
+  color: #e2e8f0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ══ Header ══ */
+#header {
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+  padding: 9px 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#header h1 { font-size: 14px; font-weight: 700; color: #f1f5f9; white-space: nowrap; }
+
+.hdr-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border: none; border-radius: 6px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s; white-space: nowrap; flex-shrink: 0;
+}
+#btnOpenFolder { background: #3b82f6; color: #fff; }
+#btnOpenFolder:hover { background: #2563eb; }
+#btnAddPanel   { background: #0f3460; color: #93c5fd; border: 1px solid #1d4ed8; }
+#btnAddPanel:hover { background: #1d4ed8; color: #fff; }
+#btnAddPanel:disabled { opacity: 0.35; cursor: not-allowed; }
+
+#fileCount { font-size: 11px; color: #475569; white-space: nowrap; }
+
+/* Fallback */
+#dropFallback {
+  display: none; align-items: center; gap: 5px;
+  padding: 5px 10px; border: 1px dashed #334155; border-radius: 6px;
+  font-size: 11px; color: #475569; cursor: pointer; transition: all 0.15s;
+}
+#dropFallback.visible { display: flex; }
+#dropFallback:hover { border-color: #3b82f6; color: #3b82f6; }
+#dropFallback.drag-over { border-color: #3b82f6; color: #3b82f6; }
+#fileInput { display: none; }
+
+/* ══ Legend bar ══ */
+#legend-bar {
+  display: flex; gap: 16px; align-items: center;
+  padding: 5px 18px; background: #1e293b;
+  border-bottom: 1px solid #334155; flex-shrink: 0;
+}
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #94a3b8; }
+.leg-sw { width: 12px; height: 12px; border-radius: 3px; }
+
+/* ══ Panels container ══ */
+#panels-container {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 10px 14px 20px;
+  scrollbar-width: thin; scrollbar-color: #334155 transparent;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+/* ══ Empty state ══ */
+#global-empty {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px; color: #334155;
+}
+#global-empty svg { opacity: 0.2; }
+#global-empty .ge-title { font-size: 15px; color: #475569; }
+#global-empty .ge-sub   { font-size: 12px; text-align: center; line-height: 1.8; }
+
+/* ══ Panel ══ */
+.panel {
+  background: #0d1526;
+  border: 1px solid #1e3a5f;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.panel-hdr {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 12px;
+  background: #162032;
+  border-bottom: 1px solid #1e3a5f;
+}
+
+/* per-panel zoom */
+.pnl-zoom { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
+.pnl-zoom button {
+  background: #1e293b; border: none; color: #e2e8f0;
+  width: 24px; height: 24px; border-radius: 5px; cursor: pointer;
+  font-size: 14px; display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s;
+}
+.pnl-zoom button:hover { background: #334155; }
+.pnl-zoom .zlbl { font-size: 11px; color: #94a3b8; min-width: 34px; text-align: center; }
+.pnl-zoom .zrst { width: auto !important; padding: 0 6px; font-size: 10px; }
+
+.panel-close {
+  margin-left: 2px; background: transparent; border: none;
+  color: #475569; font-size: 15px; cursor: pointer; line-height: 1;
+  padding: 2px 5px; border-radius: 5px; transition: all 0.1s; flex-shrink: 0;
+}
+.panel-close:hover { background: #ef4444; color: #fff; }
+
+/* Timeline area */
+.panel-timeline-wrap {
+  display: flex; align-items: flex-start;
+  overflow-x: auto; overflow-y: hidden;
+  padding: 12px 16px 10px 0;
+  scrollbar-width: thin; scrollbar-color: #1e3a5f transparent;
+  min-height: 80px;
+}
+.panel-y-labels {
+  flex-shrink: 0; display: flex; flex-direction: column;
+  padding-top: 30px; /* align with x-axis */
+}
+.y-label {
+  height: 48px; display: flex; align-items: center;
+  padding: 0 12px 0 16px;
+  font-size: 12px; font-weight: 600; color: #94a3b8; white-space: nowrap;
+}
+.panel-svg-wrap { flex: 1; overflow: visible; }
+.tl-svg { overflow: visible; display: block; }
+
+/* SVG chart elements */
+.x-lbl { fill: #64748b; font-size: 10px; font-family: 'Segoe UI', sans-serif; }
+.x-line { stroke: #1e2d45; stroke-width: 1; }
+.row-even { fill: #0f1c30; }
+.row-odd  { fill: #0d1526; }
+.row-sep  { stroke: #172035; stroke-width: 1; }
+.bar { cursor: pointer; }
+.bar:hover { opacity: 0.75; }
+.bar-subtask     { fill: #3b82f6; }
+.bar-idle        { fill: #475569; }
+.bar-replan_wait { fill: #f59e0b; }
+
+/* Empty panel state */
+.panel-empty {
+  display: flex; align-items: center; justify-content: center;
+  height: 120px; color: #334155; font-size: 12px;
+}
+
+/* ══ Pie charts ══ */
+.panel-pies {
+  display: flex; gap: 0; flex-wrap: nowrap;
+  border-top: 1px solid #172035;
+  background: #080f1e;
+  overflow-x: auto;
+  scrollbar-width: thin; scrollbar-color: #1e3a5f transparent;
+}
+
+.pie-card {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 14px 18px; gap: 8px;
+  border-right: 1px solid #172035; flex-shrink: 0;
+  min-width: 170px;
+}
+.pie-card:last-child { border-right: none; }
+
+.pie-card-all {
+  background: #0c1828;
+  border-right: 2px solid #2a4a7f;
+  box-shadow: inset 0 0 0 1px #1a3a60;
+}
+
+.pie-robot-name {
+  font-size: 11px; font-weight: 700; color: #94a3b8;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.pie-svg { display: block; }
+
+.pie-legend { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+.pie-row {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; color: #94a3b8; white-space: nowrap;
+}
+.pie-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.pie-state { flex: 1; color: #64748b; }
+.pie-pct   { color: #e2e8f0; font-weight: 600; min-width: 36px; text-align: right; }
+.pie-sec   { color: #475569; min-width: 42px; text-align: right; }
+
+/* ══ Searchable Select (reusable) ══ */
+.ss-wrap { position: relative; flex: 1; min-width: 180px; max-width: 520px; }
+.ss-trigger {
+  display: flex; align-items: center; gap: 6px;
+  background: #0a1120; border: 1px solid #1e3a5f; border-radius: 6px;
+  padding: 4px 9px; cursor: text; transition: border-color 0.15s;
+}
+.ss-trigger:hover { border-color: #334155; }
+.ss-wrap.open .ss-trigger { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.12); }
+.ss-icon { color: #475569; flex-shrink: 0; transition: color 0.15s; }
+.ss-wrap.open .ss-icon { color: #3b82f6; }
+.ss-input {
+  flex: 1; min-width: 0; background: transparent; border: none; outline: none;
+  color: #e2e8f0; font-size: 12px; font-family: inherit; cursor: text;
+}
+.ss-input::placeholder { color: #475569; }
+.ss-clear {
+  display: none; font-size: 11px; color: #475569; cursor: pointer;
+  padding: 1px 3px; border-radius: 3px; transition: color 0.1s; flex-shrink: 0;
+}
+.ss-clear:hover { color: #ef4444; }
+.ss-wrap.has-val .ss-clear { display: block; }
+.ss-caret {
+  font-size: 9px; color: #475569; flex-shrink: 0;
+  cursor: pointer; padding: 2px; transition: transform 0.15s;
+}
+.ss-wrap.open .ss-caret { transform: rotate(180deg); color: #3b82f6; }
+.ss-dropdown {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: #1a2744; border: 1px solid #2a4070; border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.6); max-height: 300px;
+  overflow-y: auto; z-index: 9000; display: none;
+  scrollbar-width: thin; scrollbar-color: #334155 transparent;
+}
+.ss-wrap.open .ss-dropdown { display: block; }
+.ss-grp-hdr {
+  position: sticky; top: 0; padding: 7px 12px 4px;
+  font-size: 10px; font-weight: 700; color: #64748b;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  background: #1a2744; border-bottom: 1px solid #0f172a;
+}
+.ss-item {
+  padding: 6px 12px 6px 20px; font-size: 12px; color: #cbd5e1;
+  cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: background 0.07s;
+}
+.ss-item:hover, .ss-item.active { background: #1d3a6b; color: #f1f5f9; }
+.ss-item.cur { color: #60a5fa; font-weight: 600; }
+.ss-item.cur::before { content: '✓ '; }
+.ss-no-res { padding: 14px; text-align: center; font-size: 12px; color: #475569; }
+mark.hl { background: rgba(59,130,246,0.3); color: #93c5fd; border-radius: 2px; font-weight: 600; }
+
+/* ══ Tooltip ══ */
+#tooltip {
+  position: fixed; background: #1e293b; border: 1px solid #475569;
+  border-radius: 8px; padding: 10px 14px; font-size: 12px;
+  pointer-events: none; z-index: 9999; display: none; max-width: 340px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+.tt-head { font-weight: 700; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.tt-dot  { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.tt-row  { color: #94a3b8; margin-top: 3px; line-height: 1.5; }
+.tt-row span { color: #e2e8f0; }
+
+/* ══ Loading ══ */
+#loading {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45); z-index: 8888;
+  align-items: center; justify-content: center; font-size: 13px; color: #94a3b8;
+}
+#loading.show { display: flex; }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div id="header">
+  <h1>Robot State Timeline Viewer</h1>
+
+  <button class="hdr-btn" id="btnOpenFolder">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </svg>
+    폴더 열기
+  </button>
+
+  <button class="hdr-btn" id="btnAddPanel" disabled>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    패널 추가
+  </button>
+
+  <span id="fileCount"></span>
+
+  <div id="dropFallback">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    .log 드래그 또는 클릭
+  </div>
+  <input type="file" id="fileInput" accept=".log" multiple>
+</div>
+
+<!-- ── Legend ── -->
+<div id="legend-bar">
+  <div class="leg-item"><div class="leg-sw" style="background:#3b82f6"></div>subtask</div>
+  <div class="leg-item"><div class="leg-sw" style="background:#475569"></div>idle</div>
+  <div class="leg-item"><div class="leg-sw" style="background:#f59e0b"></div>replan_wait</div>
+</div>
+
+<!-- ── Panels ── -->
+<div id="panels-container">
+  <div id="global-empty">
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </svg>
+    <span class="ge-title">실험 로그 폴더를 열어주세요</span>
+    <span class="ge-sub">PDL / PDL_central 하위 폴더를 포함한 폴더를 선택하면<br>자동으로 파일 목록을 불러옵니다</span>
+  </div>
+</div>
+
+<!-- ── Tooltip ── -->
+<div id="tooltip">
+  <div class="tt-head"><div class="tt-dot" id="tt-dot"></div><span id="tt-state"></span></div>
+  <div class="tt-row">시간: <span id="tt-time"></span></div>
+  <div class="tt-row">지속: <span id="tt-dur"></span></div>
+  <div class="tt-row" id="tt-detail-row">내용: <span id="tt-detail"></span></div>
+</div>
+
+<div id="loading">파일 읽는 중…</div>
+
+<script>
+// ═══════════════════════════════════════════
+// Constants
+// ═══════════════════════════════════════════
+const STATE_COLORS = { subtask:'#3b82f6', idle:'#475569', replan_wait:'#f59e0b' };
+const SHOW_STATES  = new Set(['subtask','idle','replan_wait']);
+const SCAN_FOLDERS = ['PDL','PDL_central'];
+const ROW_H   = 48;
+const AXIS_H  = 30;
+const MIN_BAR = 2;
+const BASE_W  = 1200;
+
+// ═══════════════════════════════════════════
+// App state
+// ═══════════════════════════════════════════
+let allFiles     = [];   // [{ id, folder, label }] — shared across panels
+let fileHandles  = {};   // id → { handle, name }
+let panelCounter = 0;
+const panels     = new Map();  // panelId → { zoom, data }
+
+// ═══════════════════════════════════════════
+// Utilities
+// ═══════════════════════════════════════════
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function hlMatch(text, q) {
+  const lo = text.toLowerCase(), i = lo.indexOf(q);
+  if (i < 0) return escH(text);
+  return escH(text.slice(0,i)) + `<mark class="hl">${escH(text.slice(i,i+q.length))}</mark>` + escH(text.slice(i+q.length));
+}
+function niceInterval(maxVal, n) {
+  if (!maxVal) return 1;
+  const raw = maxVal / n;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  let best = mag;
+  for (const k of [1,2,5,10]) { const c=k*mag; if(Math.abs(c-raw)<Math.abs(best-raw)) best=c; }
+  return best || 1;
+}
+function showLoading(on) { document.getElementById('loading').classList.toggle('show', on); }
+
+// ═══════════════════════════════════════════
+// Parsing
+// ═══════════════════════════════════════════
+function parseLog(text, fileName) {
+  const lines = text.split(/\r?\n/);
+  const robots = {}, robotOrder = [];
+  let cur = null;
+  const reH = /^---\s*Robot\s+(\d+)\s*---\s*$/;
+  const reE = /^\s+(subtask|idle|replan_wait|blocking)\s+([\d.]+)s\s*~\s*([\d.]+)s\s*\([\d.]+s\)\s*\[(.+?)\]\s*$/;
+  for (const line of lines) {
+    const hm = line.match(reH);
+    if (hm) {
+      const k = `Robot ${hm[1]}`;
+      if (!robots[k]) { robots[k]=[]; robotOrder.push(k); }
+      cur = k; continue;
+    }
+    if (!cur) continue;
+    if (/^={4,}/.test(line)||/^\[\[/.test(line)) { cur=null; continue; }
+    const em = line.match(reE);
+    if (em) {
+      const [,state,start,end,detail] = em;
+      if (SHOW_STATES.has(state))
+        robots[cur].push({ state, detail:detail.trim(), start:parseFloat(start), end:parseFloat(end) });
+    }
+  }
+  let maxTime = 0;
+  for (const evs of Object.values(robots)) for (const e of evs) if (e.end>maxTime) maxTime=e.end;
+  return { name:fileName, robots, robotOrder, maxTime };
+}
+
+// ═══════════════════════════════════════════
+// Searchable Select Factory
+// ═══════════════════════════════════════════
+function createSelect(container, onChange) {
+  const wrap = document.createElement('div');
+  wrap.className = 'ss-wrap';
+  wrap.innerHTML = `
+    <div class="ss-trigger">
+      <svg class="ss-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input class="ss-input" type="text" placeholder="파일 검색…" autocomplete="off" spellcheck="false">
+      <span class="ss-clear">✕</span>
+      <span class="ss-caret">▾</span>
+    </div>
+    <div class="ss-dropdown"></div>`;
+  container.appendChild(wrap);
+
+  const input    = wrap.querySelector('.ss-input');
+  const dropdown = wrap.querySelector('.ss-dropdown');
+  const clearBtn = wrap.querySelector('.ss-clear');
+  const caret    = wrap.querySelector('.ss-caret');
+  let curId = null, activeIdx = -1;
+
+  function open() {
+    wrap.classList.add('open');
+    input.value = ''; input.focus();
+    activeIdx = -1; render('');
+    requestAnimationFrame(() => dropdown.querySelector('.ss-item.cur')?.scrollIntoView({block:'nearest'}));
+  }
+  function close() {
+    wrap.classList.remove('open'); activeIdx = -1;
+    const f = allFiles.find(f=>f.id===curId);
+    input.value = f ? f.label : '';
+  }
+  function setValue(id) {
+    curId = id; wrap.classList.toggle('has-val', !!id);
+    const f = allFiles.find(f=>f.id===id);
+    input.value = f ? f.label : '';
+  }
+  function select(id) { setValue(id); close(); onChange(id); }
+
+  function updateActive(items) {
+    items.forEach((el,i) => el.classList.toggle('active', i===activeIdx));
+    items[activeIdx]?.scrollIntoView({block:'nearest'});
+  }
+
+  function render(query) {
+    const q = query.trim().toLowerCase();
+    const list = q ? allFiles.filter(f=>f.label.toLowerCase().includes(q)||f.folder.toLowerCase().includes(q)) : allFiles;
+    if (!list.length) { dropdown.innerHTML=`<div class="ss-no-res">검색 결과 없음</div>`; return; }
+    const grps = {};
+    for (const f of list) { if(!grps[f.folder]) grps[f.folder]=[]; grps[f.folder].push(f); }
+    let html = '';
+    for (const folder of SCAN_FOLDERS) {
+      const fs = grps[folder]; if(!fs) continue;
+      html += `<div class="ss-grp-hdr">📁 ${folder} (${fs.length})</div>`;
+      for (const f of fs) html += `<div class="ss-item${f.id===curId?' cur':''}" data-id="${escH(f.id)}">${q?hlMatch(f.label,q):escH(f.label)}</div>`;
+    }
+    dropdown.innerHTML = html;
+    dropdown.querySelectorAll('.ss-item').forEach((el,idx) => {
+      el.addEventListener('mousedown', e => { e.preventDefault(); select(el.dataset.id); });
+      el.addEventListener('mouseenter', () => { activeIdx=idx; updateActive([...dropdown.querySelectorAll('.ss-item')]); });
+    });
+  }
+
+  wrap.querySelector('.ss-trigger').addEventListener('mousedown', e => {
+    if (e.target===clearBtn||e.target===caret) return;
+    e.preventDefault();
+    wrap.classList.contains('open') ? close() : open();
+  });
+  caret.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); wrap.classList.contains('open')?close():open(); });
+  clearBtn.addEventListener('mousedown', e => {
+    e.preventDefault(); e.stopPropagation();
+    curId=null; wrap.classList.remove('has-val'); input.value='';
+    if(wrap.classList.contains('open')) render('');
+    input.focus(); onChange(null);
+  });
+  input.addEventListener('input', () => { if(!wrap.classList.contains('open')) wrap.classList.add('open'); activeIdx=-1; render(input.value); });
+  input.addEventListener('focus', () => { if(!wrap.classList.contains('open')&&allFiles.length) { wrap.classList.add('open'); render(input.value); } });
+  input.addEventListener('keydown', e => {
+    const items = [...dropdown.querySelectorAll('.ss-item')];
+    if (e.key==='ArrowDown') { e.preventDefault(); activeIdx=Math.min(activeIdx+1,items.length-1); updateActive(items); }
+    else if (e.key==='ArrowUp') { e.preventDefault(); activeIdx=Math.max(activeIdx-1,0); updateActive(items); }
+    else if (e.key==='Enter') { e.preventDefault(); items[activeIdx]?select(items[activeIdx].dataset.id):items.length===1&&select(items[0].dataset.id); }
+    else if (e.key==='Escape') close();
+  });
+
+  wrap._close = close;
+  wrap._setValue = setValue;
+  return wrap;
+}
+
+// Global click-outside for all selects
+document.addEventListener('mousedown', e => {
+  document.querySelectorAll('.ss-wrap.open').forEach(w => { if(!w.contains(e.target)) w._close(); });
+});
+
+// ═══════════════════════════════════════════
+// Panel management
+// ═══════════════════════════════════════════
+function addPanel(autoId = null) {
+  const id = ++panelCounter;
+  panels.set(id, { zoom:1.0, data:null });
+
+  const pEl = document.createElement('div');
+  pEl.className = 'panel';
+  pEl.id = `panel-${id}`;
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'panel-hdr';
+
+  const selWrap = createSelect(hdr, async (fileId) => {
+    if (!fileId) { setPanelEmpty(pEl); return; }
+    await loadPanelFile(id, fileId, pEl);
+  });
+
+  // Zoom controls
+  const zoomDiv = document.createElement('div');
+  zoomDiv.className = 'pnl-zoom';
+  zoomDiv.innerHTML = `
+    <button class="zout" title="축소">−</button>
+    <span class="zlbl">100%</span>
+    <button class="zin" title="확대">+</button>
+    <button class="zrst">Reset</button>`;
+  hdr.appendChild(zoomDiv);
+
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'panel-close'; closeBtn.title = '패널 닫기'; closeBtn.textContent = '✕';
+  closeBtn.addEventListener('click', () => removePanel(id));
+  hdr.appendChild(closeBtn);
+  pEl.appendChild(hdr);
+
+  // Zoom handlers
+  const zlbl = zoomDiv.querySelector('.zlbl');
+  zoomDiv.querySelector('.zin').addEventListener('click', () => {
+    const p = panels.get(id); if(!p) return;
+    p.zoom = Math.min(p.zoom*1.5, 16); zlbl.textContent=Math.round(p.zoom*100)+'%';
+    if (p.data) renderTimeline(pEl, p.data, p.zoom);
+  });
+  zoomDiv.querySelector('.zout').addEventListener('click', () => {
+    const p = panels.get(id); if(!p) return;
+    p.zoom = Math.max(p.zoom/1.5, 0.15); zlbl.textContent=Math.round(p.zoom*100)+'%';
+    if (p.data) renderTimeline(pEl, p.data, p.zoom);
+  });
+  zoomDiv.querySelector('.zrst').addEventListener('click', () => {
+    const p = panels.get(id); if(!p) return;
+    p.zoom = 1.0; zlbl.textContent='100%';
+    if (p.data) renderTimeline(pEl, p.data, p.zoom);
+  });
+
+  // Timeline area
+  const tlWrap = document.createElement('div');
+  tlWrap.className = 'panel-timeline-wrap';
+  const yLbls = document.createElement('div');
+  yLbls.className = 'panel-y-labels';
+  const svgWrap = document.createElement('div');
+  svgWrap.className = 'panel-svg-wrap';
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.classList.add('tl-svg');
+  svgWrap.appendChild(svg);
+  tlWrap.appendChild(yLbls);
+  tlWrap.appendChild(svgWrap);
+
+  // Ctrl+wheel zoom
+  tlWrap.addEventListener('wheel', e => {
+    if (!e.ctrlKey && !e.metaKey) return;
+    e.preventDefault();
+    const p = panels.get(id); if(!p) return;
+    p.zoom = Math.min(16, Math.max(0.15, p.zoom*(e.deltaY<0?1.15:1/1.15)));
+    zlbl.textContent = Math.round(p.zoom*100)+'%';
+    if (p.data) renderTimeline(pEl, p.data, p.zoom);
+  }, {passive:false});
+
+  // Pie charts area
+  const piesEl = document.createElement('div');
+  piesEl.className = 'panel-pies';
+
+  const emptyEl = document.createElement('div');
+  emptyEl.className = 'panel-empty';
+  emptyEl.textContent = allFiles.length ? '↑ 파일을 선택해주세요' : '먼저 폴더를 열어주세요';
+  pEl.appendChild(emptyEl);
+  pEl.appendChild(tlWrap);
+  pEl.appendChild(piesEl);
+  pEl.querySelector('.panel-timeline-wrap').style.display = 'none';
+  pEl.querySelector('.panel-pies').style.display = 'none';
+
+  // Tooltip events on this panel's SVG
+  svg.addEventListener('mousemove', onBarMouseMove);
+  svg.addEventListener('mouseleave', () => { document.getElementById('tooltip').style.display='none'; });
+
+  document.getElementById('panels-container').appendChild(pEl);
+  document.getElementById('global-empty').style.display = 'none';
+
+  // Auto-load
+  if (autoId && fileHandles[autoId]) {
+    selWrap._setValue(autoId);
+    loadPanelFile(id, autoId, pEl);
+  }
+
+  return id;
+}
+
+function removePanel(id) {
+  document.getElementById(`panel-${id}`)?.remove();
+  panels.delete(id);
+  if (panels.size === 0) document.getElementById('global-empty').style.display = 'flex';
+}
+
+function setPanelEmpty(pEl) {
+  pEl.querySelector('.panel-empty').style.display   = 'flex';
+  pEl.querySelector('.panel-timeline-wrap').style.display = 'none';
+  pEl.querySelector('.panel-pies').style.display    = 'none';
+}
+
+async function loadPanelFile(panelId, fileId, pEl) {
+  const fh = fileHandles[fileId];
+  if (!fh) return;
+  showLoading(true);
+  try {
+    const file = await fh.handle.getFile();
+    const text = await file.text();
+    const data = parseLog(text, fh.name);
+    const p = panels.get(panelId);
+    if (!p) return;
+    p.data = data;
+    renderPanel(pEl, data, p.zoom);
+  } catch(e) {
+    alert('파일 읽기 실패:\n'+e.message);
+    setPanelEmpty(pEl);
+  } finally {
+    showLoading(false);
+  }
+}
+
+// ═══════════════════════════════════════════
+// Rendering: Timeline
+// ═══════════════════════════════════════════
+function renderPanel(pEl, data, zoom) {
+  const { robotOrder, maxTime } = data;
+  if (!robotOrder.length || !maxTime) { setPanelEmpty(pEl); return; }
+
+  pEl.querySelector('.panel-empty').style.display         = 'none';
+  pEl.querySelector('.panel-timeline-wrap').style.display = 'flex';
+  pEl.querySelector('.panel-pies').style.display          = 'flex';
+
+  renderTimeline(pEl, data, zoom);
+  renderPieCharts(pEl, data);
+}
+
+function renderTimeline(pEl, data, zoom) {
+  const { robots, robotOrder, maxTime } = data;
+  const chartW = Math.round(BASE_W * zoom);
+  const chartH = robotOrder.length * ROW_H;
+  const ts = t => (t/maxTime)*chartW;
+
+  const svg = pEl.querySelector('.tl-svg');
+  svg.setAttribute('width',  chartW);
+  svg.setAttribute('height', AXIS_H+chartH);
+  svg.setAttribute('viewBox',`0 0 ${chartW} ${AXIS_H+chartH}`);
+
+  let html = '';
+  for (let i=0;i<robotOrder.length;i++) {
+    const y = AXIS_H+i*ROW_H;
+    html += `<rect class="${i%2===0?'row-even':'row-odd'}" x="0" y="${y}" width="${chartW}" height="${ROW_H}"/>`;
+    html += `<line class="row-sep" x1="0" y1="${y}" x2="${chartW}" y2="${y}"/>`;
+  }
+  html += `<line class="row-sep" x1="0" y1="${AXIS_H+chartH}" x2="${chartW}" y2="${AXIS_H+chartH}"/>`;
+
+  const ticks = niceInterval(maxTime, Math.min(20,Math.max(8,Math.floor(chartW/80))));
+  for (let t=0;t<=maxTime+ticks*0.5;t+=ticks) {
+    if (t>maxTime+0.001) break;
+    const x=ts(Math.min(t,maxTime));
+    html += `<line class="x-line" x1="${x}" y1="${AXIS_H}" x2="${x}" y2="${AXIS_H+chartH}"/>`;
+    html += `<text class="x-lbl" x="${x}" y="${AXIS_H-5}" text-anchor="middle">${t.toFixed(0)}s</text>`;
+  }
+  html += `<text class="x-lbl" x="${chartW}" y="${AXIS_H-5}" text-anchor="end">${maxTime.toFixed(1)}s</text>`;
+
+  for (let i=0;i<robotOrder.length;i++) {
+    const rowY=AXIS_H+i*ROW_H, barH=ROW_H*0.56, barY=rowY+(ROW_H-barH)/2;
+    for (const ev of robots[robotOrder[i]]) {
+      const x1=ts(ev.start), w=Math.max(MIN_BAR,ts(ev.end)-x1);
+      html += `<rect class="bar bar-${ev.state}"
+        data-state="${ev.state}" data-start="${ev.start}" data-end="${ev.end}"
+        data-detail="${escH(ev.detail)}"
+        x="${x1.toFixed(2)}" y="${barY.toFixed(2)}"
+        width="${w.toFixed(2)}" height="${barH.toFixed(2)}" rx="3" ry="3"/>`;
+    }
+  }
+  svg.innerHTML = html;
+
+  const yLbls = pEl.querySelector('.panel-y-labels');
+  yLbls.innerHTML = '';
+  for (const r of robotOrder) {
+    const d = document.createElement('div');
+    d.className='y-label'; d.textContent=r; yLbls.appendChild(d);
+  }
+}
+
+// ═══════════════════════════════════════════
+// Rendering: Pie Charts
+// ═══════════════════════════════════════════
+function makePieCard(label, times, isAll) {
+  const total = times.subtask + times.idle + times.replan_wait;
+
+  const card = document.createElement('div');
+  card.className = 'pie-card' + (isAll ? ' pie-card-all' : '');
+
+  const title = document.createElement('div');
+  title.className = 'pie-robot-name'; title.textContent = label; card.appendChild(title);
+
+  const SZ=110, R=42, ri=24, cx=SZ/2, cy=SZ/2;
+  const bgFill = isAll ? '#0c1828' : '#080f1e';
+  let paths = '';
+  if (total > 0) {
+    const segs = [
+      ['subtask',    times.subtask,    '#3b82f6'],
+      ['idle',       times.idle,       '#475569'],
+      ['replan_wait',times.replan_wait,'#f59e0b'],
+    ].filter(([,t]) => t > 0);
+
+    if (segs.length === 1) {
+      // SVG arc with identical start/end (360°) renders nothing — use circles instead
+      const [state, t, col] = segs[0];
+      paths += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="${col}" opacity="0.92"><title>${state}: ${t.toFixed(1)}s (100.0%)</title></circle>`;
+    } else {
+      let ang = -Math.PI / 2;
+      for (const [state, t, col] of segs) {
+        const sl=(t/total)*2*Math.PI, ea=ang+sl, large=sl>Math.PI?1:0;
+        const ox1=cx+R*Math.cos(ang), oy1=cy+R*Math.sin(ang);
+        const ox2=cx+R*Math.cos(ea),  oy2=cy+R*Math.sin(ea);
+        const ix1=cx+ri*Math.cos(ea), iy1=cy+ri*Math.sin(ea);
+        const ix2=cx+ri*Math.cos(ang),iy2=cy+ri*Math.sin(ang);
+        paths += `<path d="M${ox1.toFixed(2)},${oy1.toFixed(2)}A${R},${R},0,${large},1,${ox2.toFixed(2)},${oy2.toFixed(2)}L${ix1.toFixed(2)},${iy1.toFixed(2)}A${ri},${ri},0,${large},0,${ix2.toFixed(2)},${iy2.toFixed(2)}Z" fill="${col}" opacity="0.92"><title>${state}: ${t.toFixed(1)}s (${((t/total)*100).toFixed(1)}%)</title></path>`;
+        ang = ea;
+      }
+    }
+    paths += `<circle cx="${cx}" cy="${cy}" r="${ri-1}" fill="${bgFill}"/>`;
+    paths += `<text x="${cx}" y="${cy+3}" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="Segoe UI,sans-serif">${total.toFixed(0)}s</text>`;
+  } else {
+    paths = `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#1e293b" stroke="#334155" stroke-width="1"/><text x="${cx}" y="${cy+4}" text-anchor="middle" fill="#475569" font-size="9">no data</text>`;
+  }
+
+  const svgEl = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svgEl.setAttribute('width', SZ); svgEl.setAttribute('height', SZ);
+  svgEl.setAttribute('viewBox', `0 0 ${SZ} ${SZ}`);
+  svgEl.classList.add('pie-svg'); svgEl.innerHTML = paths;
+  card.appendChild(svgEl);
+
+  const legendEl = document.createElement('div');
+  legendEl.className = 'pie-legend';
+  for (const [state, color] of [['subtask','#3b82f6'],['idle','#475569'],['replan_wait','#f59e0b']]) {
+    const t = times[state], pct = total > 0 ? ((t/total)*100).toFixed(1) : '0.0';
+    const row = document.createElement('div'); row.className = 'pie-row';
+    row.innerHTML = `<span class="pie-dot" style="background:${color}"></span><span class="pie-state">${state}</span><span class="pie-pct">${pct}%</span><span class="pie-sec">${t.toFixed(1)}s</span>`;
+    legendEl.appendChild(row);
+  }
+  card.appendChild(legendEl);
+  return card;
+}
+
+function renderPieCharts(pEl, data) {
+  const { robots, robotOrder } = data;
+  const container = pEl.querySelector('.panel-pies');
+  container.innerHTML = '';
+
+  // Combined card (all robots aggregated)
+  const allTimes = { subtask:0, idle:0, replan_wait:0 };
+  for (const rKey of robotOrder)
+    for (const ev of robots[rKey])
+      if (allTimes[ev.state] !== undefined) allTimes[ev.state] += (ev.end - ev.start);
+  container.appendChild(makePieCard('ALL ROBOTS', allTimes, true));
+
+  // Per-robot cards
+  for (const rKey of robotOrder) {
+    const times = { subtask:0, idle:0, replan_wait:0 };
+    for (const ev of robots[rKey])
+      if (times[ev.state] !== undefined) times[ev.state] += (ev.end - ev.start);
+    container.appendChild(makePieCard(rKey, times, false));
+  }
+}
+
+// ═══════════════════════════════════════════
+// Tooltip
+// ═══════════════════════════════════════════
+const tooltip = document.getElementById('tooltip');
+
+function onBarMouseMove(e) {
+  const bar = e.target.closest('.bar');
+  if (!bar) { tooltip.style.display='none'; return; }
+  const state=bar.dataset.state, s=parseFloat(bar.dataset.start), en=parseFloat(bar.dataset.end), detail=bar.dataset.detail;
+  document.getElementById('tt-dot').style.background   = STATE_COLORS[state]||'#888';
+  document.getElementById('tt-state').textContent       = state;
+  document.getElementById('tt-time').textContent        = `${s.toFixed(2)}s ~ ${en.toFixed(2)}s`;
+  document.getElementById('tt-dur').textContent         = `${(en-s).toFixed(2)}s`;
+  document.getElementById('tt-detail').textContent      = detail;
+  document.getElementById('tt-detail-row').style.display= detail?'':'none';
+  tooltip.style.display='block';
+  const pad=14; let x=e.clientX+pad, y=e.clientY+pad;
+  const tw=tooltip.offsetWidth||280, th=tooltip.offsetHeight||80;
+  if(x+tw>window.innerWidth-8)  x=e.clientX-tw-pad;
+  if(y+th>window.innerHeight-8) y=e.clientY-th-pad;
+  tooltip.style.left=x+'px'; tooltip.style.top=y+'px';
+}
+document.addEventListener('mousemove', e => { if(!e.target.closest('.tl-svg')) tooltip.style.display='none'; });
+
+// ═══════════════════════════════════════════
+// Folder scan
+// ═══════════════════════════════════════════
+document.getElementById('btnOpenFolder').addEventListener('click', async () => {
+  if (!window.showDirectoryPicker) { document.getElementById('dropFallback').classList.add('visible'); return; }
+  try {
+    const root = await window.showDirectoryPicker({ mode:'read' });
+    await scanFolder(root);
+  } catch(e) { if(e.name!=='AbortError') alert('폴더를 열 수 없습니다:\n'+e.message); }
+});
+
+async function scanFolder(root) {
+  showLoading(true);
+  allFiles=[]; fileHandles={};
+  let total=0;
+  for (const folder of SCAN_FOLDERS) {
+    let fh; try { fh=await root.getDirectoryHandle(folder); } catch { continue; }
+    const files=[];
+    for await (const [name,handle] of fh.entries())
+      if(handle.kind==='file'&&name.endsWith('.log')) files.push({name,handle});
+    if (!files.length) continue;
+    files.sort((a,b)=>a.name.localeCompare(b.name));
+    for (const {name,handle} of files) {
+      const id=`${folder}/${name}`, label=name.replace(/\.log$/i,'');
+      fileHandles[id]={handle,name};
+      allFiles.push({id,folder,label});
+      total++;
+    }
+  }
+  showLoading(false);
+  document.getElementById('fileCount').textContent=`총 ${total}개`;
+  document.getElementById('btnAddPanel').disabled=false;
+
+  // Remove old panels and add a fresh first panel
+  document.querySelectorAll('.panel').forEach(p=>p.remove());
+  panels.clear(); panelCounter=0;
+  document.getElementById('global-empty').style.display='none';
+
+  addPanel(allFiles[0]?.id);
+}
+
+// "+ 패널 추가"
+document.getElementById('btnAddPanel').addEventListener('click', () => addPanel());
+
+// ═══════════════════════════════════════════
+// Fallback: file input / drag-drop
+// ═══════════════════════════════════════════
+function loadFileObjectFallback(file) {
+  if (!file.name.endsWith('.log')) return;
+  showLoading(true);
+  const reader=new FileReader();
+  reader.onload = e => {
+    const data=parseLog(e.target.result, file.name);
+    // Create a dummy handle-like entry
+    const id='fallback/'+file.name;
+    fileHandles[id]={ handle:{ getFile:()=>Promise.resolve(file) }, name:file.name };
+    allFiles.push({ id, folder:'(dropped)', label:file.name.replace(/\.log$/i,'') });
+    document.getElementById('btnAddPanel').disabled=false;
+    document.getElementById('global-empty').style.display='none';
+    // Add panel and directly render (bypass file handle)
+    const pid=++panelCounter;
+    panels.set(pid,{zoom:1.0,data});
+    const pEl=document.querySelector(`#panel-${pid}`); // will be created next
+    addPanel(); // creates panel DOM without data
+    const newPanel=document.getElementById(`panel-${panelCounter}`);
+    if(newPanel) {
+      const p=panels.get(panelCounter); if(p){ p.data=data; renderPanel(newPanel,data,p.zoom); }
+    }
+    showLoading(false);
+  };
+  reader.readAsText(file);
+}
+
+const dropFallback=document.getElementById('dropFallback');
+dropFallback.addEventListener('dragover',  e=>{e.preventDefault();dropFallback.classList.add('drag-over');});
+dropFallback.addEventListener('dragleave', ()=>dropFallback.classList.remove('drag-over'));
+dropFallback.addEventListener('drop',      e=>{e.preventDefault();dropFallback.classList.remove('drag-over');[...e.dataTransfer.files].forEach(loadFileObjectFallback);});
+dropFallback.addEventListener('click',     ()=>document.getElementById('fileInput').click());
+document.getElementById('fileInput').addEventListener('change', e=>{[...e.target.files].forEach(loadFileObjectFallback);e.target.value='';});
+document.body.addEventListener('dragover',e=>e.preventDefault());
+document.body.addEventListener('drop',    e=>{e.preventDefault();[...e.dataTransfer.files].forEach(loadFileObjectFallback);});
+
+// ═══════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════
+if (!window.showDirectoryPicker) {
+  document.getElementById('dropFallback').classList.add('visible');
+  document.getElementById('btnOpenFolder').style.display='none';
+}
+</script>
+</body>
+</html>

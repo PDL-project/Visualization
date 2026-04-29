@@ -1,0 +1,168 @@
+Setting Config Task to 8, with task name 'Wash the bowl, mug, pot, and pan'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan1'
+
+----Test set tasks----
+['Wash the bowl, mug, pot, and pan']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Wash the bowl, mug, pot, and pan: 1/1
+==================================================
+[PlanCache] Restored from AI2Thor/baselines/PDL_central/resources/plan_cache/config_type1_task8_fp0
+[PlanCache] Skipping LLM planning — using cached plan
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan1, agentCount=3
+[Robot1] Spawned at (-0.75, 2.00)
+[Robot2] Spawned at (2.00, -2.00)
+[Robot3] Spawned at (-1.25, -1.50)
+[ObjectDict] Sink-related types: ['Sink']
+[AI2-THOR] Ready!
+[Checker] Mapped 'Wash the bowl, mug, pot, and pan' -> '1_wash_bowl_mug_pot_pan'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 1 component(s) to schedule
+  Component 0: subtasks [1, 2, 3, 4]
+[Component 0] Scheduled 2 phase(s): ['parallel', 'parallel'] for subtasks [1, 2, 3, 4]
+[Component 0] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/resources/dag_outputs/schedules/component_0.json
+
+[EXEC] Execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_0(sids=[1, 2, 3, 4], robots=[1, 2, 3])
+
+[EXEC] Step 0 executing: ['unit_0']
+[Robot1] Action: gotoobject robot1 faucet (1)
+[Robot2] Action: gotoobject robot1 faucet (1)
+[Robot3] Action: gotoobject robot1 faucet (1)
+[Robot3] Action: switchon robot1 faucet (1)
+[Robot3] Action: gotoobject robot1 pot (1)
+[Robot3] Action: pickupobject robot1 pot countertop (1)
+[Robot3] Action: gotoobject robot1 sink (1)
+[Robot3] Action: cleanobject robot1 pot sink (1)
+[Robot2] Action: switchon robot1 faucet (1)
+[Robot3] Action: gotoobject robot1 countertop (1)
+[Robot3] Action: drophandobject robot1 pot countertop (1)
+[ToggleObjectOn] Error: can't toggle object on if it's already on!
+[Robot2] Subtask 2 failed, replan started (background), unit unit_0 stopped
+[Replan] versioned folder: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/resources/replan_1
+
+============================================================
+[Feedback] Replan Group 2
+============================================================
+  - Failed subtask: 2
+  - Target subtasks: [2]
+  - Action: group-level redecomposition
+
+============================================================
+[Feedback] Decomp Callback (Group 2)
+============================================================
+  - Subtasks in group: [2]
+  - Failed subtask: 2
+  - Remaining pending: [1, 3, 4]
+  - Live object info: 76 objects
+  - Tasks to redecompose: [2, 1, 3, 4]
+[Subtask 3] Completed! success=True
+  [Parser] LLM response → 4 subtask(s) parsed
+  Redecomposed into 4 new subtasks
+[EXEC] Step 0 completed (unit makespans: [8])
+[DEBUG] Step 0 post-check: pending_replans=1, replanned=False, aborted_sids={1, 3, 4}
+
+[EXEC] Waiting for 1 background replan thread(s)...
+  Saving generated files...
+  Validating regenerated PDDL problems (replan)...
+  Running planner for new subtasks...
+    Subtask 1: ✗ Planning failed
+    Subtask 2: ✗ Planning failed
+    Subtask 3: ✗ Planning failed
+    Subtask 4: ✗ Planning failed
+  ERROR: No valid plans generated
+
+============================================================
+[Feedback] Fallback Replan
+============================================================
+  - Mode: GroupAgent-driven individual subtask replan
+[Central] Robot3 all tasks done → now available for reassignment
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask           5.21s ~   19.56s  (14.36s) [sid=1 act=gotoobject robot1 faucet (1)]
+  blocking         15.73s ~   19.41s  (3.68s) [no_progress target=faucet]
+  ──────────────────────────────────────────────────
+  blocking       total: 3.68s
+  subtask        total: 14.36s
+
+--- Robot 2 ---
+  subtask           5.21s ~   16.38s  (11.18s) [sid=2 act=gotoobject robot1 faucet (1)]
+  subtask          16.38s ~   17.77s  (1.38s) [sid=2 act=switchon robot1 faucet (1)]
+  ──────────────────────────────────────────────────
+  subtask        total: 12.56s
+
+--- Robot 3 ---
+  subtask           5.21s ~    5.65s  (0.45s) [sid=3 act=gotoobject robot1 faucet (1)]
+  subtask           5.65s ~    7.16s  (1.51s) [sid=3 act=switchon robot1 faucet (1)]
+  subtask           7.16s ~    7.96s  (0.80s) [sid=3 act=gotoobject robot1 pot (1)]
+  subtask           7.96s ~    9.66s  (1.69s) [sid=3 act=pickupobject robot1 pot countertop (1)]
+  subtask           9.66s ~   15.66s  (6.01s) [sid=3 act=gotoobject robot1 sink (1)]
+  blocking          9.66s ~   13.02s  (3.36s) [no_progress target=sink]
+  blocking         13.02s ~   15.51s  (2.50s) [no_progress target=sink]
+  subtask          15.66s ~   17.10s  (1.44s) [sid=3 act=cleanobject robot1 pot sink (1)]
+  subtask          17.10s ~   17.26s  (0.15s) [sid=3 act=gotoobject robot1 countertop (1)]
+  subtask          17.26s ~   17.91s  (0.66s) [sid=3 act=drophandobject robot1 pot countertop (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 5.86s
+  subtask        total: 12.70s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:0.250, Transport Rate:0.250, Steps:11, Makespan:8, WallMakespan:45.9s, Finished:False, SubtaskSR:0.250, Balance:0.000, Exec:0.909
+SR:0, GCR:0.250
+
+
+[Checker] Completed (2): ['CleanObject(Pot_1)', 'NavigateTo(Pot_1)']
+[Checker] Missing (6): ['CleanObject(Bowl_1)', 'CleanObject(Mug_1)', 'CleanObject(Pan_1)', 'NavigateTo(Bowl_1)', 'NavigateTo(Mug_1)', 'NavigateTo(Pan_1)']
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 10/11
+[Feedback] 3 subtask(s) still failed: [2, 1, 4]
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 1
+  Fully successful replans: 1
+  PQ = 1/1 = 1.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 0 (prompt: 0, output: 0)
+  Replan   : 66,972 (prompt: 64,284, output: 2,688)
+  Total    : 66,972 (prompt: 64,284, output: 2,688)
+
+[[ TIMING ]]
+  Initial Planning : 0.0s
+  Replan Planning  : 28.2s
+  All Planning     : 28.2s
+  Execution        : 22.1s
+  Total            : 50.3s
+
+[RESULT-CSV] Append target: ./res/res.csv
+Error in main execution: list index out of range
+Full error: IndexError: list index out of range
+Traceback (most recent call last):
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 4472, in main
+    task_manager.log_results(
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 639, in log_results
+    for item in self.precondition_subtasks[idx]:
+IndexError: list index out of range
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread

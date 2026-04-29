@@ -1,0 +1,201 @@
+Setting Config Task to 2, with task name 'Clear the central countertop by placing items in their appropriate positions'. Floorplan unknown.
+Setting Config FloorPlan to 0, with name 'FloorPlan1'
+
+----Test set tasks----
+['Clear the central countertop by placing items in their appropriate positions']
+Total: 1 tasks
+
+
+==================================================
+Processing Task: Clear the central countertop by placing items in their appropriate positions: 1/1
+==================================================
+[PlanCache] Restored from AI2Thor/baselines/PDL_central/resources/plan_cache/config_type4_task2_fp0
+[PlanCache] Skipping LLM planning — using cached plan
+✓ Multi-robot execution code generated
+
+✓ Running execution with feedback loop...
+[AI2-THOR] Starting scene=FloorPlan1, agentCount=3
+[Robot1] Spawned at (-0.75, 2.00)
+[Robot2] Spawned at (2.00, -2.00)
+[Robot3] Spawned at (-1.25, -1.50)
+[ObjectDict] Sink-related types: ['Sink']
+[AI2-THOR] Ready!
+[Checker] Mapped 'Clear the central countertop by placing items in their appropriate positions' -> '4_clear_countertop_kitchen'
+============================================================
+[EXEC] Multi-Robot Execution (Feedback Mode: sequential per subtask)
+[EXEC] Real-time state store: ON
+[EXEC] Immediate replan callback: ON
+============================================================
+
+[EXEC] 1 component(s) to schedule
+  Component 0: subtasks [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+[Component 0] Scheduled 34 phase(s): ['parallel', 'sync_open', 'sync_put', 'sync_close', 'sync_open', 'sync_put', 'sync_close', 'sync_open', 'sync_put', 'sync_close', 'parallel', 'sync_open', 'sync_put', 'sync_close', 'sync_open', 'sync_put', 'sync_close', 'sync_open', 'sync_put', 'sync_close', 'parallel', 'sync_open', 'sync_put', 'sync_close', 'sync_open', 'sync_put', 'sync_close', 'parallel', 'sync_open', 'sync_put', 'sync_close', 'sync_open', 'sync_put', 'sync_close'] for subtasks [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+[Component 0] Schedule saved: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/resources/dag_outputs/schedules/component_0.json
+
+[EXEC] Execution plan: 1 unit(s), 1 step(s)
+  Step 0: unit_0(sids=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], robots=[1, 2, 3])
+
+[EXEC] Step 0 executing: ['unit_0']
+[Robot1] Action: gotoobject robot1 mug (1)
+[Robot2] Action: gotoobject robot1 spatula (1)
+[Robot3] Action: gotoobject robot1 butterknife (1)
+[Robot2] Action: pickupobject robot1 spatula countertop (1)
+[Robot2] Action: gotoobject robot1 cabinet2 (1)
+[Robot1] Action: pickupobject robot1 mug countertop (1)
+[Robot1] Action: gotoobject robot1 cabinet3 (1)
+[Robot3] Action: pickupobject robot1 butterknife countertop (1)
+[Robot3] Action: gotoobject robot1 cabinet1 (1)
+[Robot1] Action: openobject robot1 cabinet1 (1)
+[Robot1] Action: drophandobject robot1 butterknife cabinet1 (1)
+[Robot1] Action: closeobject robot1 cabinet1 (1)
+[Subtask 1] Completed! success=True
+[Robot2] Action: openobject robot1 cabinet2 (1)
+[Robot2] Action: drophandobject robot1 spatula cabinet2 (1)
+[Robot2] Action: closeobject robot1 cabinet2 (1)
+[Subtask 3] Completed! success=True
+[Robot1] Action: openobject robot1 cabinet3 (1)
+[Robot1] Action: drophandobject robot1 mug cabinet3 (1)
+[PutObject] Error: Can't place an object if Agent isn't holding anything
+[Robot1] Subtask 5 failed, replan started (background), unit unit_0 stopped
+[EXEC] Step 0 completed (unit makespans: [10])
+[DEBUG] Step 0 post-check: pending_replans=1, replanned=False, aborted_sids={1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12}
+
+[EXEC] Waiting for 1 background replan thread(s)...
+[Replan] versioned folder: /home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/resources/replan_1
+
+============================================================
+[Feedback] Replan Group 5
+============================================================
+  - Failed subtask: 5
+  - Target subtasks: [5, 6]
+  - Action: group-level redecomposition
+
+============================================================
+[Feedback] Decomp Callback (Group 5)
+============================================================
+  - Subtasks in group: [5, 6]
+  - Failed subtask: 5
+  - Remaining pending: [2, 4, 6, 7, 8, 9, 10, 11, 12]
+  - Live object info: 76 objects
+  - Tasks to redecompose: [5, 2, 4, 6, 7, 8, 9, 10, 11, 12]
+  [Parser] LLM response → 10 subtask(s) parsed
+  Redecomposed into 10 new subtasks
+  Saving generated files...
+  Validating regenerated PDDL problems (replan)...
+  Running planner for new subtasks...
+    Subtask 5: ✗ Planning failed
+    Subtask 2: ✗ Planning failed
+    Subtask 4: ✗ Planning failed
+    Subtask 6: ✗ Planning failed
+    Subtask 7: ✗ Planning failed
+    Subtask 8: ✗ Planning failed
+    Subtask 9: ✗ Planning failed
+    Subtask 10: ✗ Planning failed
+    Subtask 11: ✗ Planning failed
+    Subtask 12: ✗ Planning failed
+  ERROR: No valid plans generated
+
+============================================================
+[Feedback] Fallback Replan
+============================================================
+  - Mode: GroupAgent-driven individual subtask replan
+======================================================================
+ROBOT TIMELINE REPORT
+======================================================================
+
+--- Robot 1 ---
+  subtask          17.33s ~   28.51s  (11.18s) [sid=5 act=gotoobject robot1 mug (1)]
+  subtask          28.51s ~   29.75s  (1.24s) [sid=5 act=pickupobject robot1 mug countertop (1)]
+  subtask          29.75s ~   32.95s  (3.20s) [sid=5 act=gotoobject robot1 cabinet3 (1)]
+  blocking         29.75s ~   32.49s  (2.75s) [no_progress target=cabinet3]
+  subtask          74.19s ~   90.51s  (16.32s) [sid=1 act=openobject robot1 cabinet1 (1)]
+  blocking         80.82s ~   86.53s  (5.71s) [no_progress target=cabinet1]
+  subtask          90.51s ~   90.78s  (0.28s) [sid=1 act=drophandobject robot1 butterknife cabinet1 (1)]
+  subtask          90.79s ~   93.27s  (2.48s) [sid=1 act=closeobject robot1 cabinet1 (1)]
+  subtask         100.96s ~  110.30s  (9.34s) [sid=5 act=openobject robot1 cabinet3 (1)]
+  blocking        100.96s ~  103.04s  (2.08s) [no_progress target=cabinet3]
+  subtask         110.30s ~  112.55s  (2.25s) [sid=5 act=drophandobject robot1 mug cabinet3 (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 10.53s
+  subtask        total: 46.29s
+
+--- Robot 2 ---
+  subtask          17.33s ~   23.52s  (6.19s) [sid=3 act=gotoobject robot1 spatula (1)]
+  blocking         17.33s ~   19.38s  (2.05s) [no_progress target=spatula]
+  subtask          23.52s ~   25.08s  (1.56s) [sid=3 act=pickupobject robot1 spatula countertop (1)]
+  subtask          25.08s ~   40.78s  (15.70s) [sid=3 act=gotoobject robot1 cabinet2 (1)]
+  blocking         25.08s ~   28.02s  (2.93s) [no_progress target=cabinet2]
+  blocking         29.47s ~   40.58s  (11.11s) [no_progress target=cabinet2]
+  subtask          93.28s ~   99.44s  (6.16s) [sid=3 act=openobject robot1 cabinet2 (1)]
+  subtask          99.44s ~   99.74s  (0.31s) [sid=3 act=drophandobject robot1 spatula cabinet2 (1)]
+  subtask          99.74s ~  100.95s  (1.20s) [sid=3 act=closeobject robot1 cabinet2 (1)]
+  ──────────────────────────────────────────────────
+  blocking       total: 16.09s
+  subtask        total: 31.12s
+
+--- Robot 3 ---
+  subtask          17.33s ~   37.23s  (19.91s) [sid=1 act=gotoobject robot1 butterknife (1)]
+  blocking         17.33s ~   21.12s  (3.79s) [no_progress target=butterknife]
+  blocking         24.02s ~   30.09s  (6.07s) [no_progress target=butterknife]
+  blocking         30.09s ~   36.79s  (6.69s) [no_progress target=butterknife]
+  subtask          37.23s ~   70.60s  (33.36s) [sid=1 act=pickupobject robot1 butterknife countertop (1)]
+  blocking         37.24s ~   40.00s  (2.76s) [no_progress target=butterknife]
+  blocking         40.00s ~   45.77s  (5.77s) [no_progress target=butterknife]
+  blocking         45.77s ~   49.13s  (3.37s) [no_progress target=butterknife]
+  blocking         49.13s ~   52.79s  (3.66s) [no_progress target=butterknife]
+  blocking         53.89s ~   55.86s  (1.96s) [no_progress target=butterknife]
+  blocking         55.86s ~   59.25s  (3.40s) [no_progress target=butterknife]
+  blocking         62.64s ~   67.21s  (4.56s) [no_progress target=butterknife]
+  subtask          70.60s ~   74.19s  (3.59s) [sid=1 act=gotoobject robot1 cabinet1 (1)]
+  blocking         70.60s ~   73.46s  (2.86s) [no_progress target=cabinet1]
+  ──────────────────────────────────────────────────
+  blocking       total: 44.90s
+  subtask        total: 56.86s
+
+======================================================================
+
+[[ RESULT ]]
+
+Coverage:0.200, Transport Rate:0.118, Steps:17, Makespan:10, WallMakespan:257.8s, Finished:False, SubtaskSR:0.118, Balance:0.200, Exec:0.941
+SR:0, GCR:0.200
+
+
+[Checker] Completed (2): ['NavigateTo(ButterKnife_1)', 'PickUpObject(ButterKnife_1)']
+[Checker] Missing (15): ['CloseObject(Fridge_1)', 'NavigateTo(Apple_1)', 'NavigateTo(Drawer, Fork)', 'NavigateTo(Fork_1)', 'NavigateTo(Fridge, Apple)', 'NavigateTo(Fridge, Tomato)', 'NavigateTo(Tomato_1)', 'OpenObject(Drawer, Fork)', 'OpenObject(Fridge_1)', 'PickUpObject(Apple_1)', 'PickUpObject(Fork_1)', 'PickUpObject(Tomato_1)', 'PutObject(Drawer, Fork)', 'PutObject(Fridge, Apple)', 'PutObject(Fridge, Tomato)']
+[Record] saved: 0
+[Record] saved: 1
+[Record] saved: 2
+[Record] saved: top
+[AI2-THOR] Stopped. Success: 16/17
+[Feedback] 10 subtask(s) still failed: [5, 2, 4, 6, 7, 8, 9, 10, 11, 12]
+✓ Feedback loop finished.
+
+[[ REPLANNING SR (Plan Quality) ]]
+  Total replans: 1
+  Fully successful replans: 1
+  PQ = 1/1 = 1.000
+
+
+[[ LLM TOKEN USAGE ]]
+  Planning : 0 (prompt: 0, output: 0)
+  Replan   : 180,963 (prompt: 171,639, output: 9,324)
+  Total    : 180,963 (prompt: 171,639, output: 9,324)
+
+[[ TIMING ]]
+  Initial Planning : 0.0s
+  Replan Planning  : 145.3s
+  All Planning     : 145.3s
+  Execution        : 117.7s
+  Total            : 263.0s
+
+[RESULT-CSV] Append target: ./res/res.csv
+Error in main execution: list index out of range
+Full error: IndexError: list index out of range
+Traceback (most recent call last):
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 4472, in main
+    task_manager.log_results(
+  File "/home/chaerin/Documents/GitHub/PDL/AI2Thor/baselines/PDL_central/scripts/PDDL_Module.py", line 639, in log_results
+    for item in self.precondition_subtasks[idx]:
+IndexError: list index out of range
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::~QObject: Timers cannot be stopped from another thread
